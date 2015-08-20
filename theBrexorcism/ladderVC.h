@@ -17,5 +17,7 @@
 @property (nonatomic, strong) PFUser *selectedUser;
 @property (nonatomic, strong) NSMutableArray *ladder;
 
+- (IBAction)logOut:(id)sender;
+
 @end
 

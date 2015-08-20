@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (nonatomic, strong) NSArray *allUsers;
 
 - (IBAction)signupButton:(id)sender;
 - (IBAction)dismissButton:(id)sender;

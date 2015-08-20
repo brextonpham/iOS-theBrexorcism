@@ -18,6 +18,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    PFQuery *query = [PFUser query]; //queries all users by default
+    [query orderByAscending:@"username"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+        else {
+            self.allUsers = [[NSArray alloc] initWithArray:objects];
+        }
+    }];
 }
 
 - (IBAction)signupButton:(id)sender {
@@ -34,6 +45,10 @@
         PFUser *newUser = [PFUser user];
         newUser.username = username;
         newUser.password = password;
+        
+        NSUInteger rankInt = [self.allUsers count];
+        NSNumber *rank = [NSNumber numberWithInteger:rankInt];
+        newUser[@"rank"] = rank;
         
         //signing up and saving the user in parse background
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

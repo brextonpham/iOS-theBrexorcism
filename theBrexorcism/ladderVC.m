@@ -140,4 +140,8 @@
     cell.textLabel.text = name;
 }
 
+- (IBAction)logOut:(id)sender {
+    [PFUser logOut];
+    [self performSegueWithIdentifier:@"showLogin" sender:self];
+}
 @end
