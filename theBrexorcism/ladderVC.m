@@ -102,12 +102,11 @@
 
 - (void)retrieveLadder {
     /* Retrieving all messages */
-    PFQuery *query = [PFQuery queryWithClassName:@"Ladder"];
+    PFQuery *query = [PFUser query];
     if ([[PFUser currentUser] objectId] == nil) {
         NSLog(@"No objectID");
     } else {
-        [query whereKey:@"recipientIds" equalTo:[[PFUser currentUser] objectId]];
-        [query orderByDescending:@"createdAt"];
+        [query orderByAscending:@"rank"];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (error) {
                 NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -130,7 +129,12 @@
 //you get a reference to the item at the indexPath, which then gets and sets the titleLabel and subtitleLabel texts on the cell
 - (void)configureBasicCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     PFUser *user = [self.ladder objectAtIndex:indexPath.row];
-    NSString *text = user.username;
+    NSString *name = user.username;
+    NSNumber *rank = [user objectForKey:@"rank"];
+    NSUInteger rankInt = [rank integerValue];
+    NSString *rankString = [NSString stringWithFormat:@"%@",  @(rankInt)];
+    NSString *text = [NSString stringWithFormat: @"%@ %@", rankString, name];
+    
     [self setPostForCell:cell item:text];
 }
 

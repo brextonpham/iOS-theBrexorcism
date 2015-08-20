@@ -46,7 +46,7 @@
         newUser.username = username;
         newUser.password = password;
         
-        NSUInteger rankInt = [self.allUsers count];
+        NSUInteger rankInt = [self.allUsers count] + 1;
         NSNumber *rank = [NSNumber numberWithInteger:rankInt];
         newUser[@"rank"] = rank;
         
