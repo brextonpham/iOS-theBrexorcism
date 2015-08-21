@@ -35,6 +35,7 @@
 		D6D75F7D1B83A2B300FBABDA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6D75F6A1B83A2B300FBABDA /* UIKit.framework */; };
 		D6D75F801B83B55700FBABDA /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D6D75F7F1B83B55700FBABDA /* LoginVC.m */; };
 		D6D75F891B83B97500FBABDA /* SignUpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D6D75F881B83B97500FBABDA /* SignUpVC.m */; };
+		D6D75F8C1B8798F100FBABDA /* ladderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D6D75F8B1B8798F100FBABDA /* ladderCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,8 @@
 		D6D75F7F1B83B55700FBABDA /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		D6D75F871B83B97500FBABDA /* SignUpVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpVC.h; sourceTree = "<group>"; };
 		D6D75F881B83B97500FBABDA /* SignUpVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpVC.m; sourceTree = "<group>"; };
+		D6D75F8A1B8798F100FBABDA /* ladderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ladderCell.h; sourceTree = "<group>"; };
+		D6D75F8B1B8798F100FBABDA /* ladderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ladderCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +171,8 @@
 				D6D75F391B839CCB00FBABDA /* ladderVC.h */,
 				D6D75F3A1B839CCB00FBABDA /* ladderVC.m */,
 				D6D75F3C1B839CCB00FBABDA /* Main.storyboard */,
+				D6D75F8A1B8798F100FBABDA /* ladderCell.h */,
+				D6D75F8B1B8798F100FBABDA /* ladderCell.m */,
 				D6D75F871B83B97500FBABDA /* SignUpVC.h */,
 				D6D75F881B83B97500FBABDA /* SignUpVC.m */,
 				D6D75F7E1B83B55700FBABDA /* LoginVC.h */,
@@ -310,6 +315,7 @@
 				D6D75F891B83B97500FBABDA /* SignUpVC.m in Sources */,
 				D6D75F801B83B55700FBABDA /* LoginVC.m in Sources */,
 				D6D75F351B839CCB00FBABDA /* main.m in Sources */,
+				D6D75F8C1B8798F100FBABDA /* ladderCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

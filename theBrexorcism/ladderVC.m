@@ -7,6 +7,7 @@
 //
 
 #import "ladderVC.h"
+#import "ladderCell.h"
 
 @interface ladderVC ()
 
@@ -72,7 +73,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    ladderCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     [self configureBasicCell:cell atIndexPath:indexPath];
     
     return cell;
@@ -80,7 +81,6 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //leading to detailed message view
     self.selectedUser = [self.ladder objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"showDetail" sender:self];
 }
@@ -115,6 +115,16 @@
                     self.ladder= nil;
                 }
                 self.ladder = [[NSMutableArray alloc] initWithArray:objects];
+                
+                PFUser *currentUser = [PFUser currentUser];
+                
+                for (PFUser *user in self.ladder) {
+                    if ([user.username isEqualToString:currentUser.username]) {
+                        NSNumber *rank = [user objectForKey:@"rank"];
+                        self.currentUserRank = [rank integerValue];
+                    }
+                }
+                
                 [self.tableView reloadData];
             }
             
@@ -127,7 +137,7 @@
 }
 
 //you get a reference to the item at the indexPath, which then gets and sets the titleLabel and subtitleLabel texts on the cell
-- (void)configureBasicCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+- (void)configureBasicCell:(ladderCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     PFUser *user = [self.ladder objectAtIndex:indexPath.row];
     NSString *name = user.username;
     NSNumber *rank = [user objectForKey:@"rank"];
@@ -135,11 +145,19 @@
     NSString *rankString = [NSString stringWithFormat:@"%@",  @(rankInt)];
     NSString *text = [NSString stringWithFormat: @"%@ %@", rankString, name];
     
+    if (self.currentUserRank - rankInt == 1 || self.currentUserRank - rankInt == 2) {
+        //cell.backgroundColor = [UIColor redColor];
+        cell.challengeMaterial = YES;
+        cell.currentUser = [PFUser currentUser];
+        cell.challengedUser = user;
+        [cell.challengeButton setBackgroundImage:[UIImage imageNamed:@"challenge1"] forState:UIControlStateNormal];
+    }
+    
     [self setPostForCell:cell item:text];
 }
 
 //set labels
-- (void)setPostForCell:(UITableViewCell *)cell item:(NSString *)item {
+- (void)setPostForCell:(ladderCell *)cell item:(NSString *)item {
     NSString *name = item;
     cell.textLabel.text = name;
 }
