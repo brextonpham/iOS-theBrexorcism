@@ -32,7 +32,7 @@
                                                     </state>
                                                     <connections>
                                                         <action selector="challengeButton:" destination="QHD-St-tpc" eventType="touchUpInside" id="nX3-oE-AYv"/>
-                                                        <segue destination="mvr-U4-o8T" kind="presentation" id="5By-iU-XD1"/>
+                                                        <segue destination="8qH-cD-7JN" kind="presentation" id="dIj-jw-vDG"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -125,33 +125,21 @@
             <point key="canvasLocation" x="500.5" y="1173.5"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="i0D-8z-17s">
+        <scene sceneID="b96-G0-jhy">
             <objects>
-                <viewController id="mvr-U4-o8T" sceneMemberID="viewController">
+                <viewController id="8qH-cD-7JN" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="IgS-Qk-F8I"/>
-                        <viewControllerLayoutGuide type="bottom" id="97c-FD-oUu"/>
+                        <viewControllerLayoutGuide type="top" id="cHx-Aa-bMc"/>
+                        <viewControllerLayoutGuide type="bottom" id="KhF-Te-k1c"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="mpa-DK-LGY">
+                    <view key="view" contentMode="scaleToFill" id="iby-a2-lPY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="brexton6bw" translatesAutoresizingMaskIntoConstraints="NO" id="4Ej-jY-gFL">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="brexton6bw" translatesAutoresizingMaskIntoConstraints="NO" id="Rzg-kV-LHX">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="376"/>
                             </imageView>
-                            <view alpha="0.39999999999999963" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mTZ-if-iHT">
-                                <rect key="frame" x="0.0" y="288" width="375" height="88"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Do You Dare Challenge?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLU-6j-e8W">
-                                        <rect key="frame" x="93" y="32" width="188" height="24"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Rg-qJ-fbo">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYx-Xi-qhq">
                                 <rect key="frame" x="0.0" y="375" width="188" height="292"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
@@ -160,7 +148,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="93S-a6-ad7">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOX-F4-baL">
                                 <rect key="frame" x="187" y="375" width="188" height="292"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
@@ -169,12 +157,22 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <view alpha="0.59999999999999964" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gIY-Gg-l9I">
+                                <rect key="frame" x="0.0" y="296" width="375" height="80"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Brexercise With This Plebeian?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vVX-LK-fbQ">
+                                <rect key="frame" x="71" y="322" width="232" height="24"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ce6-nr-vuG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yAe-jp-FgT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="946.5" y="1173.5"/>
         </scene>
