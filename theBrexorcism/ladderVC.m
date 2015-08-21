@@ -8,6 +8,7 @@
 
 #import "ladderVC.h"
 #import "ladderCell.h"
+#import "challengeVC.h"
 
 @interface ladderVC ()
 
@@ -92,9 +93,10 @@
         [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
         //YakDetailVC *detailViewController = (YakDetailVC *)segue.destinationViewController;
         //detailViewController.message = self.selectedMessage;
-    }  else if ([segue.identifier isEqualToString:@"showMore"]) {
-        //MoreVC *moreViewController = (MoreVC *)segue.destinationViewController;
-        //moreViewController.currentUser = [PFUser currentUser];
+    }  else if ([segue.identifier isEqualToString:@"showChallenge"]) {
+        challengeVC *challengeViewController = (challengeVC *)segue.destinationViewController;
+        challengeViewController.currentUser = [PFUser currentUser];
+        challengeViewController.challengedUser = self.selectedUser;
     }
 }
 
@@ -148,9 +150,9 @@
     if (self.currentUserRank - rankInt == 1 || self.currentUserRank - rankInt == 2) {
         //cell.backgroundColor = [UIColor redColor];
         cell.challengeMaterial = YES;
-        cell.currentUser = [PFUser currentUser];
-        cell.challengedUser = user;
         [cell.challengeButton setBackgroundImage:[UIImage imageNamed:@"challenge1"] forState:UIControlStateNormal];
+    } else {
+        [cell.challengeButton removeFromSuperview];
     }
     
     [self setPostForCell:cell item:text];

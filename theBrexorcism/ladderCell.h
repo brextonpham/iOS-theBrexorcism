@@ -13,8 +13,6 @@
 
 @property BOOL challengeMaterial;
 @property (weak, nonatomic) IBOutlet UIButton *challengeButton;
-@property (strong, nonatomic) PFUser *challengedUser;
-@property (strong, nonatomic) PFUser *currentUser;
 
 - (IBAction)challengeButton:(id)sender;
 
