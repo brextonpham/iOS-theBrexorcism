@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D65BF5481B8BE03C003C2C0A /* meVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D65BF5471B8BE03C003C2C0A /* meVC.m */; };
 		D68DA5F31B87D3AC0074FDD0 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68DA5ED1B87D3AC0074FDD0 /* Bolts.framework */; };
 		D68DA5F41B87D3AC0074FDD0 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68DA5EE1B87D3AC0074FDD0 /* Parse.framework */; };
 		D68DA5F51B87D3AC0074FDD0 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68DA5EF1B87D3AC0074FDD0 /* ParseCrashReporting.framework */; };
@@ -56,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D65BF5461B8BE03C003C2C0A /* meVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = meVC.h; sourceTree = "<group>"; };
+		D65BF5471B8BE03C003C2C0A /* meVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = meVC.m; sourceTree = "<group>"; };
 		D68DA5ED1B87D3AC0074FDD0 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		D68DA5EE1B87D3AC0074FDD0 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		D68DA5EF1B87D3AC0074FDD0 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
@@ -198,6 +201,8 @@
 				D6D75F391B839CCB00FBABDA /* ladderVC.h */,
 				D6D75F3A1B839CCB00FBABDA /* ladderVC.m */,
 				D6D75F3C1B839CCB00FBABDA /* Main.storyboard */,
+				D65BF5461B8BE03C003C2C0A /* meVC.h */,
+				D65BF5471B8BE03C003C2C0A /* meVC.m */,
 				D68DA5F91B87E2420074FDD0 /* challengeVC.h */,
 				D68DA5FA1B87E2420074FDD0 /* challengeVC.m */,
 				D6D75F8A1B8798F100FBABDA /* ladderCell.h */,
@@ -343,6 +348,7 @@
 				D6D75F381B839CCB00FBABDA /* AppDelegate.m in Sources */,
 				D68DA5FB1B87E2420074FDD0 /* challengeVC.m in Sources */,
 				D6D75F891B83B97500FBABDA /* SignUpVC.m in Sources */,
+				D65BF5481B8BE03C003C2C0A /* meVC.m in Sources */,
 				D6D75F801B83B55700FBABDA /* LoginVC.m in Sources */,
 				D6D75F351B839CCB00FBABDA /* main.m in Sources */,
 				D6D75F8C1B8798F100FBABDA /* ladderCell.m in Sources */,
