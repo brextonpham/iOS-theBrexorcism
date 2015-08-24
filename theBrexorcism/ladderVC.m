@@ -76,8 +76,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
-    ladderCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    ladderCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     [self configureBasicCell:cell atIndexPath:indexPath];
+    [cell setNeedsLayout];
+    [cell layoutIfNeeded];
+    //[cell.challengeButtonOutlet setBackgroundColor:[UIColor redColor]];
     
     return cell;
 }
@@ -157,13 +160,15 @@
     
     cell.delegate = self;
     
+    [cell.challengeButtonOutlet setBackgroundImage:nil forState:UIControlStateNormal];
+    
     if (self.currentUserRank - rankInt == 1 || self.currentUserRank - rankInt == 2) {
         //cell.backgroundColor = [UIColor redColor];
         cell.challengeMaterial = YES;
         cell.challengedUser = user;
-        [cell.challengeButton setBackgroundImage:[UIImage imageNamed:@"challenge1"] forState:UIControlStateNormal];
+        [cell.challengeButtonOutlet setBackgroundImage:[UIImage imageNamed:@"challenge1"] forState:UIControlStateNormal];
     } else {
-        [cell.challengeButton removeFromSuperview];
+        [cell.challengeButtonOutlet removeFromSuperview];
     }
     
     [self setPostForCell:cell item:text];

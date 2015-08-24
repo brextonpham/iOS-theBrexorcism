@@ -18,11 +18,11 @@
 @interface ladderCell : UITableViewCell
 
 @property BOOL challengeMaterial;
-@property (weak, nonatomic) IBOutlet UIButton *challengeButton;
+@property (weak, nonatomic) IBOutlet UIButton *challengeButtonOutlet;
 @property (strong, nonatomic) PFUser *challengedUser;
 @property (nonatomic, weak) id<LadderCellDelegate> delegate;
 
-- (IBAction)challengeButton:(id)sender;
+- (IBAction)challengeButtonAction:(id)sender;
 
 
 @end

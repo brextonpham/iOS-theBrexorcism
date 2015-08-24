@@ -25,20 +25,20 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QHD-St-tpc" id="Iq1-Qq-BMF">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aak-1Q-8Zo">
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aak-1Q-8Zo">
                                                     <rect key="frame" x="298" y="9" width="60" height="60"/>
-                                                    <state key="normal">
+                                                    <state key="normal" backgroundImage="challenge1">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="challengeButton:" destination="QHD-St-tpc" eventType="touchUpInside" id="nX3-oE-AYv"/>
+                                                        <action selector="challengeButtonAction:" destination="QHD-St-tpc" eventType="touchUpInside" id="E9u-yE-NUP"/>
                                                         <segue destination="8qH-cD-7JN" kind="presentation" identifier="showChallenge" id="dIj-jw-vDG"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="challengeButton" destination="aak-1Q-8Zo" id="de1-y6-QM1"/>
+                                            <outlet property="challengeButtonOutlet" destination="aak-1Q-8Zo" id="gpD-N4-bzn"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -240,7 +240,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UYh-cg-ZLh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="946.5" y="-387.5"/>
+            <point key="canvasLocation" x="1437.5" y="-383.5"/>
         </scene>
         <!--LoginVC-->
         <scene sceneID="Te5-qm-JaL">
@@ -386,5 +386,6 @@
         <image name="brexton4" width="768" height="1024"/>
         <image name="brexton6bw" width="640" height="640"/>
         <image name="brexton7bw" width="2448" height="3264"/>
+        <image name="challenge1" width="640" height="468"/>
     </resources>
 </document>

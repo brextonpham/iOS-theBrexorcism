@@ -13,7 +13,6 @@
 @implementation ladderCell
 
 - (void)awakeFromNib {
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -22,11 +21,7 @@
     // Configure the view for the selected state
 }
 
-- (IBAction)challengeButton:(id)sender {
+- (IBAction)challengeButtonAction:(id)sender {
     [self.delegate ladderCell:self challengeButtonPressedForUser:self.challengedUser];
 }
-
-
-
-
 @end
