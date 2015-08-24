@@ -18,12 +18,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.navigationController.navigationBar setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
-    [self.navigationController.navigationBar setHidden:YES]; //hides navigation bar
+     //hides navigation bar
 }
 
 - (IBAction)loginButton:(id)sender {
