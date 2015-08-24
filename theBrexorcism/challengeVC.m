@@ -40,9 +40,10 @@
 }
 
 - (IBAction)yesButton:(id)sender {
-    NSData *fileData;
-    NSString *fileName;
-    NSString *fileType;
+    NSString *message = @"CHALLENGE!";
+    NSData *fileData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *fileName = @"challenge";
+    NSString *fileType = @"string";
     
     PFFile *file = [PFFile fileWithName:fileName data:fileData];
     
@@ -69,7 +70,8 @@
             }];
         }
     }];
-    
+    NSLog(@"this is the current user: %@", self.currentUser.username);
+    NSLog(@"this is the challenged user: %@", self.challengedUser.username);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 @end

@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) PFUser *selectedUser;
 @property (nonatomic, strong) NSMutableArray *ladder;
+@property (nonatomic, strong) PFUser *challengedUser;
 @property NSUInteger currentUserRank;
 
 - (IBAction)logOut:(id)sender;

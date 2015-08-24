@@ -10,7 +10,9 @@
 #import "ladderCell.h"
 #import "challengeVC.h"
 
-@interface ladderVC ()
+@interface ladderVC () <LadderCellDelegate>
+
+
 
 @end
 
@@ -96,8 +98,14 @@
     }  else if ([segue.identifier isEqualToString:@"showChallenge"]) {
         challengeVC *challengeViewController = (challengeVC *)segue.destinationViewController;
         challengeViewController.currentUser = [PFUser currentUser];
-        challengeViewController.challengedUser = self.selectedUser;
+        challengeViewController.challengedUser = self.challengedUser;
     }
+}
+
+#pragma mark - laddercell delegate
+
+- (void)ladderCell:(ladderCell *)cell challengeButtonPressedForUser:(PFUser *)user {
+    self.challengedUser = user;
 }
 
 #pragma mark - helper methods
@@ -147,9 +155,12 @@
     NSString *rankString = [NSString stringWithFormat:@"%@",  @(rankInt)];
     NSString *text = [NSString stringWithFormat: @"%@ %@", rankString, name];
     
+    cell.delegate = self;
+    
     if (self.currentUserRank - rankInt == 1 || self.currentUserRank - rankInt == 2) {
         //cell.backgroundColor = [UIColor redColor];
         cell.challengeMaterial = YES;
+        cell.challengedUser = user;
         [cell.challengeButton setBackgroundImage:[UIImage imageNamed:@"challenge1"] forState:UIControlStateNormal];
     } else {
         [cell.challengeButton removeFromSuperview];

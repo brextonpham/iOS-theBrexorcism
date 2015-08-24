@@ -8,6 +8,7 @@
 
 #import "ladderCell.h"
 #import <Parse/Parse.h>
+#import "challengeVC.h"
 
 @implementation ladderCell
 
@@ -22,6 +23,10 @@
 }
 
 - (IBAction)challengeButton:(id)sender {
-    
+    [self.delegate ladderCell:self challengeButtonPressedForUser:self.challengedUser];
 }
+
+
+
+
 @end
