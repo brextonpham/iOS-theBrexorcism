@@ -18,6 +18,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    NSLog(@"%@", [self checkForExistingChallenge]);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,38 +42,80 @@
 }
 
 - (IBAction)yesButton:(id)sender {
-    NSString *message = @"CHALLENGE!";
-    NSData *fileData = [message dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *fileName = @"challenge";
-    NSString *fileType = @"string";
-    
-    PFFile *file = [PFFile fileWithName:fileName data:fileData];
-    
-    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (error) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Can't send challenge at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alertView show];
-        } else {
-            PFObject *message = [PFObject objectWithClassName:@"Challenges"];
-            [message setObject:file forKey:@"file"]; //Creating classes to save message to in parse
-            [message setObject:fileType forKey:@"fileType"];
-            [message setObject:self.challengedUser forKey:@"recipientIds"];
-            [message setObject:self.challengedUser.username forKey:@"challengee"];
-            [message setObject:self.currentUser.username forKey:@"challenger"];
-            [message setObject:[[PFUser currentUser] objectId] forKey:@"senderId"];
-            [message setObject:[[PFUser currentUser] username] forKey:@"senderName"];
-            [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (error) {
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Please try sending your message again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                    [alertView show];
-                } else {
-                    //IT WORKED.
-                }
-            }];
-        }
-    }];
-    NSLog(@"this is the current user: %@", self.currentUser.username);
-    NSLog(@"this is the challenged user: %@", self.challengedUser.username);
-    [self dismissViewControllerAnimated:YES completion:nil];
+    NSLog([self checkForExistingChallenge] ? @"Yes" : @"No");
+    if ([self checkForExistingChallenge] == YES) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't Challenge!" message:@"This person already has an existing challenge!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    } else {
+        NSString *message = @"CHALLENGE!";
+        NSData *fileData = [message dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *fileName = @"challenge";
+        NSString *fileType = @"string";
+        
+        PFFile *file = [PFFile fileWithName:fileName data:fileData];
+        
+        [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Can't send challenge at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alertView show];
+            } else {
+                PFObject *message = [PFObject objectWithClassName:@"Challenges"];
+                [message setObject:file forKey:@"file"]; //Creating classes to save message to in parse
+                [message setObject:fileType forKey:@"fileType"];
+                [message setObject:self.challengedUser forKey:@"recipientIds"];
+                [message setObject:self.challengedUser.username forKey:@"challengee"];
+                [message setObject:self.currentUser.username forKey:@"challenger"];
+                [message setObject:[[PFUser currentUser] objectId] forKey:@"senderId"];
+                [message setObject:[[PFUser currentUser] username] forKey:@"senderName"];
+                [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Please try sending your message again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                        [alertView show];
+                    } else {
+                        //IT WORKED.
+                    }
+                }];
+            }
+        }];
+        NSLog(@"this is the current user: %@", self.currentUser.username);
+        NSLog(@"this is the challenged user: %@", self.challengedUser.username);
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
+
+- (BOOL)checkForExistingChallenge {
+    int challengesCount;
+    PFQuery *query = [PFQuery queryWithClassName:@"Challenges"];
+    if ([[PFUser currentUser] objectId] == nil) {
+        NSLog(@"No objectID");
+    } else {
+        NSLog(@" CHECKING %@",[[PFUser currentUser] objectId]);
+        [query orderByDescending:@"createdAt"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } else {
+                if (self.challenges != nil) {
+                    self.challenges = nil;
+                }
+                self.challenges = [[NSMutableArray alloc] init];
+                NSLog(@"challengedUser.username: %@", self.challengedUser.username);
+                for (int i = 0; i < [objects count]; i++) {
+                    if ([[objects[i] objectForKey:@"challengee"] isEqualToString:self.challengedUser.username]) {
+                        [self.challenges addObject:objects[i]];
+                    }
+                }
+                NSLog(@"Number of items in my second array is %d", [self.challenges count]);
+            }
+            int challengesCount = [self.challenges count];
+            NSLog(@"Number of items in my second array (part 2) is %d", challengesCount);
+        }];
+    }
+    if (challengesCount > 0) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 @end

@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) PFUser *challengedUser;
 @property (strong, nonatomic) PFUser *currentUser;
+@property (strong, nonatomic) NSMutableArray *challenges;
 
 - (IBAction)noButton:(id)sender;
 - (IBAction)yesButton:(id)sender;
