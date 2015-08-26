@@ -23,6 +23,7 @@
 @property (strong, nonatomic) PFObject *currentChallenge;
 @property (strong, nonatomic) PFObject *acceptedChallenge;
 @property (strong, nonatomic) PFObject *notYetChallenge;
+@property (strong, nonatomic) PFUser *otherUser;
 
 - (IBAction)winButton:(id)sender;
 - (IBAction)loseButton:(id)sender;

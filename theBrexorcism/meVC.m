@@ -46,6 +46,7 @@
     self.rankLabel.text = rankString;
     
     [self checkForExistingChallenge];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -147,8 +148,15 @@
                 NSString *challengerName = [self.currentChallenge objectForKey:@"challenger"];
                 if ([challengerName isEqualToString:[PFUser currentUser].username]) {
                     self.currentChallengeNameLabel.text = challengeeName;
+                    PFQuery *query = [PFUser query];
+                    [query whereKey:@"username" equalTo:challengeeName];
+                    self.otherUser = (PFUser *)[query getFirstObject];
                 } else {
                     self.currentChallengeNameLabel.text = challengerName;
+                    PFQuery *query = [PFUser query];
+                    [query whereKey:@"username" equalTo:challengerName];
+                    self.otherUser = (PFUser *)[query getFirstObject];
+                    NSLog(@"HI BREXTON %@", self.otherUser.username);
                 }
             }
         }];
@@ -168,19 +176,32 @@
 
 - (IBAction)winButton:(id)sender {
     if (![self.currentChallengeNameLabel.text isEqualToString:@"N/A"]) {
+        //PFUser *challengedUser = [self.currentChallenge objectForKey:@"challengee"];
+        
+        //done with wins
         self.currentChallengeNameLabel.text = @"N/A";
         [self.currentChallenge deleteInBackground];
         PFUser *currentUser = [PFUser currentUser];
-        NSNumber *wins = [currentUser objectForKey:@"wins"];
-        NSUInteger winsInt = [wins integerValue] + 1;
-        NSString *winsStr = [NSString stringWithFormat:@"%@", @(winsInt)];
-        self.winsLabel.text = winsStr;
+        NSNumber *currentUserWins = [currentUser objectForKey:@"wins"];
+        NSUInteger currentUserWinsInt = [currentUserWins integerValue] + 1;
+        NSString *currentUserWinsIntStr = [NSString stringWithFormat:@"%@", @(currentUserWinsInt)];
+        self.winsLabel.text = currentUserWinsIntStr;
         
-        wins = [NSNumber numberWithInteger:winsInt];
-        [currentUser setObject:wins forKey:@"wins"];
+        currentUserWins = [NSNumber numberWithInteger:currentUserWinsInt];
+        [currentUser setObject:currentUserWins forKey:@"wins"];
         [currentUser save];
         
         
+        
+        
+        
+        NSNumber *otherUserLosses = [self.otherUser objectForKey:@"losses"];
+        NSUInteger otherUserLossesInt = [otherUserLosses integerValue] + 1;
+        NSString *otherUsersLossesIntStr = [NSString stringWithFormat:@"%@", @(otherUserLossesInt)];
+        
+        otherUserLosses = [NSNumber numberWithInteger:otherUserLossesInt];
+        [self.otherUser setObject:otherUserLosses forKey:@"losses"];
+        [self.otherUser save];
     }
 }
 
