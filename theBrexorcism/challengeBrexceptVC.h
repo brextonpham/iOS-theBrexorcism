@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface challengeBrexceptVC : UIViewController
+
+@property (strong, nonatomic) PFObject *currentChallenge;
 
 - (IBAction)noButton:(id)sender;
 - (IBAction)yesButton:(id)sender;

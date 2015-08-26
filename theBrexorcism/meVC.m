@@ -7,6 +7,7 @@
 //
 
 #import "meVC.h"
+#import "challengeBrexceptVC.h"
 
 @interface meVC ()
 
@@ -86,6 +87,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showBrexcept"]) { 
+        challengeBrexceptVC *challengeBrexceptViewController = segue.destinationViewController;
+        challengeBrexceptViewController.currentChallenge = self.currentChallenge;
+    }
+}
+
+#pragma mark - good ol' helpers
+
 - (void)checkForExistingChallenge {
     self.challenges = nil;
     PFQuery *query = [PFQuery queryWithClassName:@"Challenges"];
@@ -104,6 +114,7 @@
                 for (int i = 0; i < [objects count]; i++) {
                     if ([[objects[i] objectForKey:@"challengee"] isEqualToString:[PFUser currentUser].username] && [[objects[i] objectForKey:@"Accepted"] isEqualToString:@"No"]) {
                         [self.challenges addObject:objects[i]];
+                        self.currentChallenge = objects[i];
                     }
                 }
                 NSLog(@"Number of items in my second array is %d", [self.challenges count]);

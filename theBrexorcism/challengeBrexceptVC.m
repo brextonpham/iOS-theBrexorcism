@@ -7,6 +7,7 @@
 //
 
 #import "challengeBrexceptVC.h"
+#import <Parse/Parse.h>
 
 @interface challengeBrexceptVC ()
 
@@ -35,8 +36,12 @@
 */
 
 - (IBAction)noButton:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (IBAction)yesButton:(id)sender {
+    [self.currentChallenge setObject:@"Yes" forKey:@"Accepted"];
+    [self.currentChallenge saveInBackground];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 @end
