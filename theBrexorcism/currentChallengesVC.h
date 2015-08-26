@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface currentChallengesVC : UIViewController
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

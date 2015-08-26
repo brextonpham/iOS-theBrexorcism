@@ -49,6 +49,9 @@
         NSUInteger rankInt = [self.allUsers count] + 1;
         NSNumber *rank = [NSNumber numberWithInteger:rankInt];
         newUser[@"rank"] = rank;
+        newUser[@"wins"] = [NSNumber numberWithInteger:1];
+        newUser[@"losses"] = [NSNumber numberWithInteger:0];
+        newUser[@"ratio"] = [NSNumber numberWithInteger:0];
         
         //signing up and saving the user in parse background
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

@@ -103,7 +103,7 @@
         <!--Current Challenges-->
         <scene sceneID="vzG-Fz-Ehq">
             <objects>
-                <viewController id="OaM-XN-5w6" sceneMemberID="viewController">
+                <viewController id="OaM-XN-5w6" customClass="currentChallengesVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Wah-X5-6jf"/>
                         <viewControllerLayoutGuide type="bottom" id="5Wc-Yj-fGU"/>
@@ -132,6 +132,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="Current Challenges" id="qUj-ZX-rnE"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="tableView" destination="5Vy-fP-YLk" id="evy-cr-ohz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UBl-iZ-GUQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -379,7 +382,7 @@
         <!--Item-->
         <scene sceneID="0bF-WA-dU5">
             <objects>
-                <viewController id="xTC-ch-nuX" sceneMemberID="viewController">
+                <viewController id="xTC-ch-nuX" customClass="meVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zOX-a4-Tss"/>
                         <viewControllerLayoutGuide type="bottom" id="Rfw-8G-bS3"/>
@@ -424,6 +427,12 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uxb-O3-2en">
                                 <rect key="frame" x="210" y="104" width="149" height="175"/>
                                 <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="wins" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTg-6Q-T6d">
+                                        <rect key="frame" x="8" y="8" width="34" height="24"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="345" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4MM-yb-G3R">
                                         <rect key="frame" x="78" y="8" width="63" height="24"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
@@ -442,20 +451,14 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1.75" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcX-I7-vqs">
-                                        <rect key="frame" x="78" y="143" width="63" height="24"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="345" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jWG-Vg-HJ7">
                                         <rect key="frame" x="78" y="76" width="63" height="24"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="wins" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTg-6Q-T6d">
-                                        <rect key="frame" x="8" y="8" width="34" height="24"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1.75" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcX-I7-vqs">
+                                        <rect key="frame" x="78" y="146" width="63" height="24"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -516,6 +519,16 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="lwX-Fh-AGL"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="currentChallengeNameLabel" destination="nLr-Jf-oS3" id="KKA-cJ-Gw5"/>
+                        <outlet property="currentUserNameLabel" destination="QQR-ro-3ko" id="Q6J-b1-Alh"/>
+                        <outlet property="lossesLabel" destination="jWG-Vg-HJ7" id="qsE-9i-Ujr"/>
+                        <outlet property="rankLabel" destination="fBM-SV-tRf" id="Ceo-tG-pRl"/>
+                        <outlet property="ratioLabel" destination="lcX-I7-vqs" id="CC9-cX-xL9"/>
+                        <outlet property="tableView" destination="pj4-1u-Zin" id="Azw-N6-UsZ"/>
+                        <outlet property="winsLabel" destination="4MM-yb-G3R" id="1SZ-qf-WJN"/>
+                        <segue destination="U1h-C8-ShE" kind="presentation" identifier="showBrexcept" id="im0-eX-EAA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NNG-xy-VUk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -540,11 +553,72 @@
             </objects>
             <point key="canvasLocation" x="500.5" y="1173.5"/>
         </scene>
+        <!--Challenge BrexceptVC-->
+        <scene sceneID="2CS-1M-aRV">
+            <objects>
+                <viewController id="U1h-C8-ShE" customClass="challengeBrexceptVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LfD-R0-dTV"/>
+                        <viewControllerLayoutGuide type="bottom" id="gNt-GQ-h38"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Uyg-0b-ycy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="brexton4bw" translatesAutoresizingMaskIntoConstraints="NO" id="3B3-xx-Gxf">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pdr-Yy-NuU">
+                                <rect key="frame" x="187" y="375" width="188" height="292"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                <state key="normal" title="YES.">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="yesButton:" destination="U1h-C8-ShE" eventType="touchUpInside" id="DYg-31-k5g"/>
+                                </connections>
+                            </button>
+                            <view alpha="0.60000002384185791" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Akq-GN-K9h">
+                                <rect key="frame" x="0.0" y="296" width="375" height="80"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Do You Brexcept?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcq-TQ-i0z">
+                                        <rect key="frame" x="119" y="23" width="136" height="24"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ua-Ia-ezL">
+                                <rect key="frame" x="0.0" y="375" width="188" height="292"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                <state key="normal" title="NO.">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="noButton:" destination="U1h-C8-ShE" eventType="touchUpInside" id="kNZ-Uq-88T"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Sp-4H-6lf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="946.5" y="-377.5"/>
+        </scene>
     </scenes>
     <resources>
         <image name="brexton-1" width="2048" height="1366"/>
         <image name="brexton1" width="2048" height="1366"/>
         <image name="brexton2bw" width="2048" height="1536"/>
+        <image name="brexton4bw" width="768" height="768"/>
         <image name="brexton6bw" width="640" height="640"/>
         <image name="brexton7bw" width="2448" height="3264"/>
         <image name="brexton8bw" width="539" height="539"/>
