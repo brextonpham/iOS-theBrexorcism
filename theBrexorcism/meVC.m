@@ -33,9 +33,7 @@
     
     NSNumber *ratio = [currentUser objectForKey:@"ratio"];
     float ratioFloat = [ratio floatValue];
-    NSLog(@"%.2f hi float", ratioFloat);
     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
-    NSLog(@"%@ this is the ratioStr", ratioStr);
     self.ratioLabel.text = ratioStr;
     
     NSNumber *rankNumber = [currentUser objectForKey:@"rank"];
@@ -45,6 +43,8 @@
     NSString *rankString = [NSString stringWithFormat:@"%@%@", poundSign, rank];
     
     self.rankLabel.text = rankString;
+    
+    [self checkForExistingChallenge];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -65,9 +65,7 @@
     
     NSNumber *ratio = [currentUser objectForKey:@"ratio"];
     float ratioFloat = [ratio floatValue];
-    NSLog(@"%.2f hi float", ratioFloat);
     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
-    NSLog(@"%@ this is the ratioStr", ratioStr);
     self.ratioLabel.text = ratioStr;
     
     NSNumber *rankNumber = [currentUser objectForKey:@"rank"];
@@ -78,9 +76,8 @@
     
     self.rankLabel.text = rankString;
     
-    if ([self checkForExistingChallenge]) {
-        [self performSegueWithIdentifier:@"showBrexcept" sender:self];
-    }
+    [self checkForExistingChallenge];
+    NSLog(@"shadness: %d", self.existingChallenge);
     
 }
 
@@ -89,8 +86,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)checkForExistingChallenge {
-    int challengesCount;
+- (void)checkForExistingChallenge {
+    self.challenges = nil;
     PFQuery *query = [PFQuery queryWithClassName:@"Challenges"];
     if ([[PFUser currentUser] objectId] == nil) {
         NSLog(@"No objectID");
@@ -113,13 +110,17 @@
             }
             int challengesCount = [self.challenges count];
             NSLog(@"Number of items in my second array (part 2) is %d", challengesCount);
+            if (challengesCount > 0) {
+                self.existingChallenge = YES;
+            } else if (challengesCount == 0){
+                self.existingChallenge = NO;
+            }
+            if (self.existingChallenge) {
+                [self performSegueWithIdentifier:@"showBrexcept" sender:self];
+            }
         }];
     }
-    if (challengesCount > 0) {
-        return YES;
-    } else {
-        return NO;
-    }
+    //query isn't fast enough. fix this in challenge class too.
 }
 
 /*

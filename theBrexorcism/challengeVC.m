@@ -18,6 +18,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //[self checkForExistingChallenge];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Do any additional setup after loading the view.
+    [self checkForExistingChallenge];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,8 +38,7 @@
 }
 
 - (IBAction)yesButton:(id)sender {
-    NSLog([self checkForExistingChallenge] ? @"Yes" : @"No");
-    if ([self checkForExistingChallenge] == YES) {
+    if (self.existingChallenge == YES) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't Challenge!" message:@"This person already has an existing challenge!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     } else {
@@ -53,6 +60,7 @@
                 [message setObject:self.challengedUser forKey:@"recipientIds"];
                 [message setObject:self.challengedUser.username forKey:@"challengee"];
                 [message setObject:self.currentUser.username forKey:@"challenger"];
+                [message setObject:@"No" forKey:@"Accepted"];
                 [message setObject:[[PFUser currentUser] objectId] forKey:@"senderId"];
                 [message setObject:[[PFUser currentUser] username] forKey:@"senderName"];
                 [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -71,13 +79,13 @@
     }
 }
 
-- (BOOL)checkForExistingChallenge {
-    int challengesCount;
+- (void)checkForExistingChallenge {
+    self.challenges = nil;
     PFQuery *query = [PFQuery queryWithClassName:@"Challenges"];
     if ([[PFUser currentUser] objectId] == nil) {
         NSLog(@"No objectID");
     } else {
-        NSLog(@" CHECKING %@",[[PFUser currentUser] objectId]);
+        NSLog(@" CHECKING %@",[PFUser currentUser].username);
         [query orderByDescending:@"createdAt"];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (error) {
@@ -97,12 +105,12 @@
             }
             int challengesCount = [self.challenges count];
             NSLog(@"Number of items in my second array (part 2) is %d", challengesCount);
+            if (challengesCount > 0) {
+                self.existingChallenge = YES;
+            } else if (challengesCount == 0){
+                self.existingChallenge = NO;
+            }
         }];
-    }
-    if (challengesCount > 0) {
-        return YES;
-    } else {
-        return NO;
     }
 }
 

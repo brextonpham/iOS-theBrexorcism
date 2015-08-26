@@ -19,5 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *currentChallengeNameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *challenges;
+@property BOOL existingChallenge;
 
 @end
