@@ -130,7 +130,6 @@
                 self.ladder = [[NSMutableArray alloc] initWithArray:objects];
                 
                 PFUser *currentUser = [PFUser currentUser];
-                
                 for (PFUser *user in self.ladder) {
                     if ([user.username isEqualToString:currentUser.username]) {
                         NSNumber *rank = [user objectForKey:@"rank"];

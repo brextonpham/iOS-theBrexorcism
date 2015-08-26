@@ -22,6 +22,7 @@
 @property BOOL existingChallenge;
 @property (strong, nonatomic) PFObject *currentChallenge;
 @property (strong, nonatomic) PFObject *acceptedChallenge;
+@property (strong, nonatomic) PFObject *notYetChallenge;
 
 - (IBAction)winButton:(id)sender;
 - (IBAction)loseButton:(id)sender;

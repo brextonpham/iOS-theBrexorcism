@@ -88,9 +88,11 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showBrexcept"]) { 
+    if ([segue.identifier isEqualToString:@"showBrexcept"]) {
+        NSLog(@"what part 2 %@", [self.currentChallenge objectForKey:@"objectId"]);
         challengeBrexceptVC *challengeBrexceptViewController = segue.destinationViewController;
         challengeBrexceptViewController.currentChallenge = self.currentChallenge;
+        challengeBrexceptViewController.notYetChallenge = self.notYetChallenge;
     }
 }
 
@@ -113,6 +115,7 @@
                 self.challenges = [[NSMutableArray alloc] init];
                 for (int i = 0; i < [objects count]; i++) {
                     if ([[objects[i] objectForKey:@"challengee"] isEqualToString:[PFUser currentUser].username] && [[objects[i] objectForKey:@"Accepted"] isEqualToString:@"No"]) {
+                        self.notYetChallenge = objects[i];
                         [self.challenges addObject:objects[i]];
                     }
                     NSLog(@"objectForKeyAccepted isEqualToString: %@", [objects[i] objectForKey:@"Accepted"]);
@@ -121,8 +124,6 @@
                     if (([[objects[i] objectForKey:@"Accepted"] isEqualToString:@"Yes"] && [[objects[i] objectForKey:@"challengee"] isEqualToString:[PFUser currentUser].username]) || ([[objects[i] objectForKey:@"Accepted"] isEqualToString:@"Yes"] && [[objects[i] objectForKey:@"challenger"] isEqualToString:[PFUser currentUser].username])) {
                         NSLog(@"what what");
                         self.currentChallenge = objects[i];
-                        NSString *challengePersonThing = [self.currentChallenge objectForKey:@"challengee"];
-                        NSLog(@"challengePersonThing %@", challengePersonThing);
                     }
                 }
                 NSLog(@"Number of items in my second array is %d", [self.challenges count]);
@@ -166,12 +167,26 @@
 */
 
 - (IBAction)winButton:(id)sender {
-    self.currentChallengeNameLabel.text = @"N/A";
-    [self.currentChallenge deleteInBackground];
+    if (![self.currentChallengeNameLabel.text isEqualToString:@"N/A"]) {
+        self.currentChallengeNameLabel.text = @"N/A";
+        [self.currentChallenge deleteInBackground];
+        PFUser *currentUser = [PFUser currentUser];
+        NSNumber *wins = [currentUser objectForKey:@"wins"];
+        NSUInteger winsInt = [wins integerValue] + 1;
+        NSString *winsStr = [NSString stringWithFormat:@"%@", @(winsInt)];
+        self.winsLabel.text = winsStr;
+        
+        wins = [NSNumber numberWithInteger:winsInt];
+        [currentUser setObject:wins forKey:@"wins"];
+        [currentUser save];
+        
+        
+    }
 }
 
 - (IBAction)loseButton:(id)sender {
     self.currentChallengeNameLabel.text = @"N/A";
     [self.currentChallenge deleteInBackground];
+    
 }
 @end

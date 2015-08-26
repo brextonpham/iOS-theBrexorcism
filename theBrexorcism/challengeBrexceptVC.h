@@ -12,6 +12,7 @@
 @interface challengeBrexceptVC : UIViewController
 
 @property (strong, nonatomic) PFObject *currentChallenge;
+@property (strong, nonatomic) PFObject *notYetChallenge;
 
 - (IBAction)noButton:(id)sender;
 - (IBAction)yesButton:(id)sender;

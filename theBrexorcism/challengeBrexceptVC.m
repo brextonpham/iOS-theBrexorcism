@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"what %@", [self.notYetChallenge objectForKey:@"objectId"]);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,8 +41,8 @@
 }
 
 - (IBAction)yesButton:(id)sender {
-    [self.currentChallenge setObject:@"Yes" forKey:@"Accepted"];
-    [self.currentChallenge saveInBackground];
+    [self.notYetChallenge setObject:@"Yes" forKey:@"Accepted"];
+    [self.notYetChallenge saveInBackground];
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 @end
