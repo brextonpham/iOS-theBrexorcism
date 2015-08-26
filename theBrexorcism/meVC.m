@@ -165,4 +165,13 @@
 }
 */
 
+- (IBAction)winButton:(id)sender {
+    self.currentChallengeNameLabel.text = @"N/A";
+    [self.currentChallenge deleteInBackground];
+}
+
+- (IBAction)loseButton:(id)sender {
+    self.currentChallengeNameLabel.text = @"N/A";
+    [self.currentChallenge deleteInBackground];
+}
 @end
