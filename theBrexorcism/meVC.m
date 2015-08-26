@@ -78,7 +78,7 @@
     self.rankLabel.text = rankString;
     
     [self checkForExistingChallenge];
-    NSLog(@"shadness: %d", self.existingChallenge);
+    NSLog(@"shadness: %@", [self.currentChallenge objectForKey:@"challengee"]);
     
 }
 
@@ -114,7 +114,15 @@
                 for (int i = 0; i < [objects count]; i++) {
                     if ([[objects[i] objectForKey:@"challengee"] isEqualToString:[PFUser currentUser].username] && [[objects[i] objectForKey:@"Accepted"] isEqualToString:@"No"]) {
                         [self.challenges addObject:objects[i]];
+                    }
+                    NSLog(@"objectForKeyAccepted isEqualToString: %@", [objects[i] objectForKey:@"Accepted"]);
+                    NSLog(@"objectForKeyChallengee isEqualToString: %@", [objects[i] objectForKey:@"challengee"]);
+                    NSLog(@"currentUserUsername: %@", [PFUser currentUser].username);
+                    if (([[objects[i] objectForKey:@"Accepted"] isEqualToString:@"Yes"] && [[objects[i] objectForKey:@"challengee"] isEqualToString:[PFUser currentUser].username]) || ([[objects[i] objectForKey:@"Accepted"] isEqualToString:@"Yes"] && [[objects[i] objectForKey:@"challenger"] isEqualToString:[PFUser currentUser].username])) {
+                        NSLog(@"what what");
                         self.currentChallenge = objects[i];
+                        NSString *challengePersonThing = [self.currentChallenge objectForKey:@"challengee"];
+                        NSLog(@"challengePersonThing %@", challengePersonThing);
                     }
                 }
                 NSLog(@"Number of items in my second array is %d", [self.challenges count]);
@@ -123,11 +131,24 @@
             NSLog(@"Number of items in my second array (part 2) is %d", challengesCount);
             if (challengesCount > 0) {
                 self.existingChallenge = YES;
-            } else if (challengesCount == 0){
+            } else if (challengesCount == 0) {
                 self.existingChallenge = NO;
             }
             if (self.existingChallenge) {
                 [self performSegueWithIdentifier:@"showBrexcept" sender:self];
+            }
+            
+            
+            if (self.currentChallenge == nil) {
+                self.currentChallengeNameLabel.text = @"N/A";
+            } else {
+                NSString *challengeeName = [self.currentChallenge objectForKey:@"challengee"];
+                NSString *challengerName = [self.currentChallenge objectForKey:@"challenger"];
+                if ([challengerName isEqualToString:[PFUser currentUser].username]) {
+                    self.currentChallengeNameLabel.text = challengeeName;
+                } else {
+                    self.currentChallengeNameLabel.text = challengerName;
+                }
             }
         }];
     }

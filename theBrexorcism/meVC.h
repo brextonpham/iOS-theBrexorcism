@@ -21,5 +21,5 @@
 @property (strong, nonatomic) NSMutableArray *challenges;
 @property BOOL existingChallenge;
 @property (strong, nonatomic) PFObject *currentChallenge;
-
+@property (strong, nonatomic) PFObject *acceptedChallenge;
 @end
