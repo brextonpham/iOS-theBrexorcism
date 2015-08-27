@@ -22,10 +22,37 @@
     NSLog(@"%@ on meVC", currentUser.username);
     self.currentUserNameLabel.text = currentUser.username;
     
-    NSNumber *wins = [currentUser objectForKey:@"wins"];
-    NSUInteger winsInt = [wins integerValue];
-    NSString *winsStr = [NSString stringWithFormat:@"%@", @(winsInt)];
-    self.winsLabel.text = winsStr;
+    PFQuery *winsQuery = [PFQuery queryWithClassName:@"Bridge"];
+    if ([[PFUser currentUser] objectId] == nil) {
+        NSLog(@"No objectID");
+    } else {
+        [winsQuery whereKey:@"username" equalTo:currentUser.username];
+        [winsQuery orderByDescending:@"createdAt"];
+        [winsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } else {
+                if (self.currentUserBridgeArrayWins != nil) {
+                    self.currentUserBridgeArrayWins = nil;
+                }
+                self.currentUserBridgeArrayWins = [[NSMutableArray alloc] initWithArray:objects];
+                if ([self.currentUserBridgeArrayWins count] > 0 && [self.currentUserBridgeArrayWins[0] objectForKey:@"updatedWins"] > 0) {
+                    NSLog(@"whats up 1");
+                    NSNumber *number = [self.currentUserBridgeArrayWins[0] objectForKey:@"updatedWins"];
+                    [currentUser setObject:number forKey:@"wins"];
+                    [currentUser saveInBackground];
+                    NSUInteger number2 = [number integerValue];
+                    NSString *number3 = [NSString stringWithFormat:@"%@", @(number2)];
+                    self.winsLabel.text = number3;
+                } else {
+                    NSNumber *wins = [currentUser objectForKey:@"wins"];
+                    NSInteger winsInt = [wins longValue];
+                    NSString *winsStr = [NSString stringWithFormat:@"%ld", (long)winsInt];
+                    self.winsLabel.text = winsStr;
+                }
+            }
+        }];
+    }
     
     PFQuery *lossQuery = [PFQuery queryWithClassName:@"Bridge"];
     if ([[PFUser currentUser] objectId] == nil) {
@@ -37,29 +64,30 @@
             if (error) {
                 NSLog(@"Error: %@ %@", error, [error userInfo]);
             } else {
-                if (self.currentUserBridgeArray != nil) {
-                    self.currentUserBridgeArray = nil;
+                if (self.currentUserBridgeArrayLosses != nil) {
+                    self.currentUserBridgeArrayLosses = nil;
                 }
-                self.currentUserBridgeArray = [[NSMutableArray alloc] initWithArray:objects];
-                if ([self.currentUserBridgeArray count] > 0) {
-                    NSLog(@"whats up");
-                    NSNumber *number = [self.currentUserBridgeArray[0] objectForKey:@"updatedLosses"];
+                self.currentUserBridgeArrayLosses = [[NSMutableArray alloc] initWithArray:objects];
+                if ([self.currentUserBridgeArrayLosses count] > 0 && [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"] > 0) {
+                    NSLog(@"whats up FUCKER");
+                    NSNumber *number = [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"];
                     [currentUser setObject:number forKey:@"losses"];
                     [currentUser saveInBackground];
                     NSUInteger number2 = [number integerValue];
                     NSString *number3 = [NSString stringWithFormat:@"%@", @(number2)];
                     self.lossesLabel.text = number3;
+                    NSLog(@"number 3 %@", number3);
                 } else {
+                    NSLog(@"HI");
                     NSNumber *losses = [currentUser objectForKey:@"losses"];
                     NSInteger lossesInt = [losses longValue];
                     NSString *lossesStr = [NSString stringWithFormat:@"%ld", (long)lossesInt];
                     self.lossesLabel.text = lossesStr;
+                    NSLog(@" SECOND number 3 %@", lossesStr);
                 }
             }
         }];
     }
-    
-    
     
     NSNumber *ratio = [currentUser objectForKey:@"ratio"];
     float ratioFloat = [ratio floatValue];
@@ -89,10 +117,38 @@
     NSLog(@"%@ on meVC", currentUser.username);
     self.currentUserNameLabel.text = currentUser.username;
     
-    NSNumber *wins = [currentUser objectForKey:@"wins"];
-    NSUInteger winsInt = [wins integerValue];
-    NSString *winsStr = [NSString stringWithFormat:@"%@", @(winsInt)];
-    self.winsLabel.text = winsStr;
+    PFQuery *winsQuery = [PFQuery queryWithClassName:@"Bridge"];
+    if ([[PFUser currentUser] objectId] == nil) {
+        NSLog(@"No objectID");
+    } else {
+        [winsQuery whereKey:@"username" equalTo:currentUser.username];
+        [winsQuery orderByDescending:@"createdAt"];
+        [winsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } else {
+                if (self.currentUserBridgeArrayWins != nil) {
+                    self.currentUserBridgeArrayWins = nil;
+                }
+                self.currentUserBridgeArrayWins = [[NSMutableArray alloc] initWithArray:objects];
+                if ([self.currentUserBridgeArrayWins count] > 0 && [self.currentUserBridgeArrayWins[0] objectForKey:@"updatedWins"] > 0) {
+                    NSLog(@"whats up 1");
+                    NSNumber *number = [self.currentUserBridgeArrayWins[0] objectForKey:@"updatedWins"];
+                    [currentUser setObject:number forKey:@"wins"];
+                    [currentUser saveInBackground];
+                    NSUInteger number2 = [number integerValue];
+                    NSString *number3 = [NSString stringWithFormat:@"%@", @(number2)];
+                    self.winsLabel.text = number3;
+                } else {
+                    NSNumber *wins = [currentUser objectForKey:@"wins"];
+                    NSInteger winsInt = [wins longValue];
+                    NSString *winsStr = [NSString stringWithFormat:@"%ld", (long)winsInt];
+                    self.winsLabel.text = winsStr;
+                }
+            }
+        }];
+    }
+
     
     PFQuery *lossQuery = [PFQuery queryWithClassName:@"Bridge"];
     if ([[PFUser currentUser] objectId] == nil) {
@@ -104,13 +160,13 @@
             if (error) {
                 NSLog(@"Error: %@ %@", error, [error userInfo]);
             } else {
-                if (self.currentUserBridgeArray != nil) {
-                    self.currentUserBridgeArray = nil;
+                if (self.currentUserBridgeArrayLosses != nil) {
+                    self.currentUserBridgeArrayLosses = nil;
                 }
-                self.currentUserBridgeArray = [[NSMutableArray alloc] initWithArray:objects];
-                if ([self.currentUserBridgeArray count] > 0) {
+                self.currentUserBridgeArrayLosses = [[NSMutableArray alloc] initWithArray:objects];
+                if ([self.currentUserBridgeArrayLosses count] > 0 && [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"] > 0 ) {
                     NSLog(@"whats up");
-                    NSNumber *number = [self.currentUserBridgeArray[0] objectForKey:@"updatedLosses"];
+                    NSNumber *number = [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"];
                     [currentUser setObject:number forKey:@"losses"];
                     [currentUser saveInBackground];
                     NSUInteger number2 = [number integerValue];
@@ -125,6 +181,7 @@
             }
         }];
     }
+
     
     NSNumber *ratio = [currentUser objectForKey:@"ratio"];
     float ratioFloat = [ratio floatValue];
@@ -285,8 +342,59 @@
 }
 
 - (IBAction)loseButton:(id)sender {
-    self.currentChallengeNameLabel.text = @"N/A";
-    [self.currentChallenge deleteInBackground];
-    
+    if (![self.currentChallengeNameLabel.text isEqualToString:@"N/A"]) {
+        //PFUser *challengedUser = [self.currentChallenge objectForKey:@"challengee"];
+        
+        //done with losses
+        self.currentChallengeNameLabel.text = @"N/A";
+        PFUser *currentUser = [PFUser currentUser];
+        NSNumber *currentUserLosses = [currentUser objectForKey:@"losses"];
+        NSUInteger currentUserLossesInt = [currentUserLosses integerValue] + 1;
+        NSString *currentUserLossesIntStr = [NSString stringWithFormat:@"%@", @(currentUserLossesInt)];
+        self.lossesLabel.text = currentUserLossesIntStr;
+        
+        currentUserLosses = [NSNumber numberWithInteger:currentUserLossesInt];
+        [currentUser setObject:currentUserLosses forKey:@"losses"];
+        [currentUser saveInBackground];
+        
+        
+        //WINNIN.
+        NSNumber *otherUserWins = [self.otherUser objectForKey:@"wins"];
+        NSUInteger *otherUserWinsInt = [otherUserWins integerValue] + 1;
+        otherUserWins = [NSNumber numberWithInteger:otherUserWinsInt];
+        
+        NSString *message = @"finished challenge";
+        NSData *fileData = [message dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *fileName = @"finishedChallenge";
+        NSString *fileType = @"string";
+        
+        PFFile *file = [PFFile fileWithName:fileName data:fileData];
+        
+        [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Can't bridge at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alertView show];
+            } else {
+                PFObject *message = [PFObject objectWithClassName:@"Bridge"];
+                [message setObject:file forKey:@"file"]; //Creating classes to save message to in parse
+                [message setObject:fileType forKey:@"fileType"];
+                [message setObject:[self.otherUser objectId] forKey:@"userObjectId"];
+                [message setObject:self.otherUser.username forKey:@"username"];
+                [message setObject:otherUserWins forKey:@"updatedWins"];
+                [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Please try sending your message again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                        [alertView show];
+                    } else {
+                        //IT WORKED.
+                    }
+                }];
+            }
+        }];
+        
+        
+        
+        //[self.currentChallenge deleteInBackground];
+    }
 }
 @end
