@@ -42,6 +42,7 @@
                 }
                 self.currentUserBridgeArray = [[NSMutableArray alloc] initWithArray:objects];
                 if ([self.currentUserBridgeArray count] > 0) {
+                    NSLog(@"whats up");
                     NSNumber *number = [self.currentUserBridgeArray[0] objectForKey:@"updatedLosses"];
                     [currentUser setObject:number forKey:@"losses"];
                     [currentUser saveInBackground];
@@ -112,7 +113,7 @@
     self.rankLabel.text = rankString;
     
     [self checkForExistingChallenge];
-    NSLog(@"shadness: %@", [self.currentChallenge objectForKey:@"challengee"]);
+    
     
 }
 
@@ -236,7 +237,7 @@
                 PFObject *message = [PFObject objectWithClassName:@"Bridge"];
                 [message setObject:file forKey:@"file"]; //Creating classes to save message to in parse
                 [message setObject:fileType forKey:@"fileType"];
-                [message setObject:[self.otherUser objectId] forKey:@"objectId"];
+                [message setObject:[self.otherUser objectId] forKey:@"userObjectId"];
                 [message setObject:self.otherUser.username forKey:@"username"];
                 [message setObject:otherUserLosses forKey:@"updatedLosses"];
                 [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
