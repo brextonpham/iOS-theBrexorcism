@@ -27,10 +27,38 @@
     NSString *winsStr = [NSString stringWithFormat:@"%@", @(winsInt)];
     self.winsLabel.text = winsStr;
     
-    NSNumber *losses = [currentUser objectForKey:@"losses"];
-    NSInteger lossesInt = [losses longValue];
-    NSString *lossesStr = [NSString stringWithFormat:@"%ld", (long)lossesInt];
-    self.lossesLabel.text = lossesStr;
+    PFQuery *lossQuery = [PFQuery queryWithClassName:@"Bridge"];
+    if ([[PFUser currentUser] objectId] == nil) {
+        NSLog(@"No objectID");
+    } else {
+        [lossQuery whereKey:@"username" equalTo:currentUser.username];
+        [lossQuery orderByDescending:@"createdAt"];
+        [lossQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } else {
+                if (self.currentUserBridgeArray != nil) {
+                    self.currentUserBridgeArray = nil;
+                }
+                self.currentUserBridgeArray = [[NSMutableArray alloc] initWithArray:objects];
+                if ([self.currentUserBridgeArray count] > 0) {
+                    NSNumber *number = [self.currentUserBridgeArray[0] objectForKey:@"updatedLosses"];
+                    [currentUser setObject:number forKey:@"losses"];
+                    [currentUser saveInBackground];
+                    NSUInteger number2 = [number integerValue];
+                    NSString *number3 = [NSString stringWithFormat:@"%@", @(number2)];
+                    self.lossesLabel.text = number3;
+                } else {
+                    NSNumber *losses = [currentUser objectForKey:@"losses"];
+                    NSInteger lossesInt = [losses longValue];
+                    NSString *lossesStr = [NSString stringWithFormat:@"%ld", (long)lossesInt];
+                    self.lossesLabel.text = lossesStr;
+                }
+            }
+        }];
+    }
+    
+    
     
     NSNumber *ratio = [currentUser objectForKey:@"ratio"];
     float ratioFloat = [ratio floatValue];
@@ -46,6 +74,11 @@
     self.rankLabel.text = rankString;
     
     [self checkForExistingChallenge];
+    
+    
+
+
+    NSLog(@"FUCKING SHIT. %@", self.otherUser.username);
     
 }
 
@@ -125,6 +158,7 @@
                     if (([[objects[i] objectForKey:@"Accepted"] isEqualToString:@"Yes"] && [[objects[i] objectForKey:@"challengee"] isEqualToString:[PFUser currentUser].username]) || ([[objects[i] objectForKey:@"Accepted"] isEqualToString:@"Yes"] && [[objects[i] objectForKey:@"challenger"] isEqualToString:[PFUser currentUser].username])) {
                         NSLog(@"what what");
                         self.currentChallenge = objects[i];
+                        [[PFUser currentUser] setObject:@"Yes" forKey:@"current"];
                     }
                 }
                 NSLog(@"Number of items in my second array is %d", [self.challenges count]);
@@ -164,15 +198,6 @@
     //query isn't fast enough. fix this in challenge class too.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)winButton:(id)sender {
     if (![self.currentChallengeNameLabel.text isEqualToString:@"N/A"]) {
@@ -180,7 +205,6 @@
         
         //done with wins
         self.currentChallengeNameLabel.text = @"N/A";
-        [self.currentChallenge deleteInBackground];
         PFUser *currentUser = [PFUser currentUser];
         NSNumber *currentUserWins = [currentUser objectForKey:@"wins"];
         NSUInteger currentUserWinsInt = [currentUserWins integerValue] + 1;
@@ -189,19 +213,46 @@
         
         currentUserWins = [NSNumber numberWithInteger:currentUserWinsInt];
         [currentUser setObject:currentUserWins forKey:@"wins"];
-        [currentUser save];
+        [currentUser saveInBackground];
         
         
-        
-        
-        
+        //LOSIN.
         NSNumber *otherUserLosses = [self.otherUser objectForKey:@"losses"];
-        NSUInteger otherUserLossesInt = [otherUserLosses integerValue] + 1;
-        NSString *otherUsersLossesIntStr = [NSString stringWithFormat:@"%@", @(otherUserLossesInt)];
-        
+        NSUInteger *otherUserLossesInt = [otherUserLosses integerValue] + 1;
         otherUserLosses = [NSNumber numberWithInteger:otherUserLossesInt];
-        [self.otherUser setObject:otherUserLosses forKey:@"losses"];
-        [self.otherUser save];
+        
+        NSString *message = @"finished challenge";
+        NSData *fileData = [message dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *fileName = @"finishedChallenge";
+        NSString *fileType = @"string";
+        
+        PFFile *file = [PFFile fileWithName:fileName data:fileData];
+        
+        [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Can't bridge at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alertView show];
+            } else {
+                PFObject *message = [PFObject objectWithClassName:@"Bridge"];
+                [message setObject:file forKey:@"file"]; //Creating classes to save message to in parse
+                [message setObject:fileType forKey:@"fileType"];
+                [message setObject:[self.otherUser objectId] forKey:@"objectId"];
+                [message setObject:self.otherUser.username forKey:@"username"];
+                [message setObject:otherUserLosses forKey:@"updatedLosses"];
+                [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Please try sending your message again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                        [alertView show];
+                    } else {
+                        //IT WORKED.
+                    }
+                }];
+            }
+        }];
+
+        
+        
+        //[self.currentChallenge deleteInBackground];
     }
 }
 

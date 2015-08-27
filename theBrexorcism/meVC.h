@@ -24,6 +24,7 @@
 @property (strong, nonatomic) PFObject *acceptedChallenge;
 @property (strong, nonatomic) PFObject *notYetChallenge;
 @property (strong, nonatomic) PFUser *otherUser;
+@property (strong, nonatomic) NSMutableArray *currentUserBridgeArray;
 
 - (IBAction)winButton:(id)sender;
 - (IBAction)loseButton:(id)sender;
