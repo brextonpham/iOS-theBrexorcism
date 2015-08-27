@@ -26,6 +26,7 @@
 @property (strong, nonatomic) PFUser *otherUser;
 @property (strong, nonatomic) NSMutableArray *currentUserBridgeArrayLosses;
 @property (strong, nonatomic) NSMutableArray *currentUserBridgeArrayWins;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 - (IBAction)winButton:(id)sender;
 - (IBAction)loseButton:(id)sender;

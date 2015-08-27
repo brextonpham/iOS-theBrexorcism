@@ -158,7 +158,7 @@
     NSString *text = [NSString stringWithFormat: @"%@ %@", rankString, name];
     
     cell.delegate = self;
-        
+    
     if (self.currentUserRank - rankInt == 1 || self.currentUserRank - rankInt == 2) {
     //if (rankInt - self.currentUserRank == 1 || rankInt - self.currentUserRank == 2) {
         //cell.backgroundColor = [UIColor redColor];

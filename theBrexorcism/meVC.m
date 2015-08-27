@@ -18,6 +18,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //Make self the delegate and datasource of the tableview
+    [self.tableView setDelegate:self];
+    [self.tableView setDataSource:self];
+    
+    //refresh screen!
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(retrieveChallenges) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
+    
+    [self.tableView reloadData];
+    
     PFUser *currentUser = [PFUser currentUser];
     NSLog(@"%@ on meVC", currentUser.username);
     self.currentUserNameLabel.text = currentUser.username;
@@ -392,7 +404,38 @@
             }
         }];
         
+        //RECORDING PAST.
+        NSString *message1 = @"past challenge";
+        NSData *fileData1 = [message1 dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *fileName1 = @"pastChallenge";
+        NSString *fileType1 = @"string";
         
+        NSDate *today = [NSDate date];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"MM/dd"];
+        NSString *dateString = [dateFormat stringFromDate:today];
+        
+        PFFile *file1 = [PFFile fileWithName:fileName1 data:fileData1];
+        
+        [file1 saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Can't record past challenge at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alertView show];
+            } else {
+                PFObject *message = [PFObject objectWithClassName:@"PastChallenges"];
+                [message setObject:currentUser.username forKey:@"loser"]; //Creating classes to save message to in parse
+                [message setObject:self.otherUser.username forKey:@"winner"];
+                [message setObject:dateString forKey:@"dateString"];
+                [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Please try sending your message again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                        [alertView show];
+                    } else {
+                        //IT WORKED.
+                    }
+                }];
+            }
+        }];
         
         //[self.currentChallenge deleteInBackground];
     }
