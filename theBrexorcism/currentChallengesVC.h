@@ -12,5 +12,7 @@
 @interface currentChallengesVC : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSMutableArray *challenges;
 
 @end
