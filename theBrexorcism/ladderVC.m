@@ -105,7 +105,7 @@
     }
 }
 
-#pragma mark - laddercell delegate
+#pragma mark - LadderCellDelegate
 
 - (void)ladderCell:(ladderCell *)cell challengeButtonPressedForUser:(PFUser *)user {
     self.challengedUser = user;
@@ -158,17 +158,15 @@
     NSString *text = [NSString stringWithFormat: @"%@ %@", rankString, name];
     
     cell.delegate = self;
-    
-    [cell.challengeButtonOutlet setBackgroundImage:nil forState:UIControlStateNormal];
-    
+        
     if (self.currentUserRank - rankInt == 1 || self.currentUserRank - rankInt == 2) {
     //if (rankInt - self.currentUserRank == 1 || rankInt - self.currentUserRank == 2) {
         //cell.backgroundColor = [UIColor redColor];
         cell.challengeMaterial = YES;
         cell.challengedUser = user;
-        [cell.challengeButtonOutlet setBackgroundImage:[UIImage imageNamed:@"challenge1"] forState:UIControlStateNormal];
+        cell.challengeButtonOutlet.hidden = NO;
     } else {
-        [cell.challengeButtonOutlet removeFromSuperview];
+        cell.challengeButtonOutlet.hidden = YES;
     }
     
     [self setPostForCell:cell item:text];
