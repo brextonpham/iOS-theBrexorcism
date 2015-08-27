@@ -94,10 +94,37 @@
     NSString *winsStr = [NSString stringWithFormat:@"%@", @(winsInt)];
     self.winsLabel.text = winsStr;
     
-    NSNumber *losses = [currentUser objectForKey:@"losses"];
-    NSInteger lossesInt = [losses longValue];
-    NSString *lossesStr = [NSString stringWithFormat:@"%ld", (long)lossesInt];
-    self.lossesLabel.text = lossesStr;
+    PFQuery *lossQuery = [PFQuery queryWithClassName:@"Bridge"];
+    if ([[PFUser currentUser] objectId] == nil) {
+        NSLog(@"No objectID");
+    } else {
+        [lossQuery whereKey:@"username" equalTo:currentUser.username];
+        [lossQuery orderByDescending:@"createdAt"];
+        [lossQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } else {
+                if (self.currentUserBridgeArray != nil) {
+                    self.currentUserBridgeArray = nil;
+                }
+                self.currentUserBridgeArray = [[NSMutableArray alloc] initWithArray:objects];
+                if ([self.currentUserBridgeArray count] > 0) {
+                    NSLog(@"whats up");
+                    NSNumber *number = [self.currentUserBridgeArray[0] objectForKey:@"updatedLosses"];
+                    [currentUser setObject:number forKey:@"losses"];
+                    [currentUser saveInBackground];
+                    NSUInteger number2 = [number integerValue];
+                    NSString *number3 = [NSString stringWithFormat:@"%@", @(number2)];
+                    self.lossesLabel.text = number3;
+                } else {
+                    NSNumber *losses = [currentUser objectForKey:@"losses"];
+                    NSInteger lossesInt = [losses longValue];
+                    NSString *lossesStr = [NSString stringWithFormat:@"%ld", (long)lossesInt];
+                    self.lossesLabel.text = lossesStr;
+                }
+            }
+        }];
+    }
     
     NSNumber *ratio = [currentUser objectForKey:@"ratio"];
     float ratioFloat = [ratio floatValue];
