@@ -25,7 +25,7 @@
     
     //refresh screen!
     self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(retrieveChallenges) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self action:@selector(retrievePastChallenges) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
     
     [self.tableView reloadData];
@@ -210,6 +210,7 @@
     
     [self checkForExistingChallenge];
     
+    [self retrievePastChallenges];
     
 }
 
@@ -227,7 +228,84 @@
     }
 }
 
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+    // return [self.messages count];
+    return [self.pastChallenges count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"why";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    [self configureBasicCell:cell atIndexPath:indexPath];
+    [cell setNeedsLayout];
+    [cell layoutIfNeeded];
+    
+    return cell;
+}
+
+
 #pragma mark - good ol' helpers
+
+- (void)retrievePastChallenges {
+    /* Retrieving all messages */
+    PFQuery *query = [PFQuery queryWithClassName:@"PastChallenges"];
+    if ([[PFUser currentUser] objectId] == nil) {
+        NSLog(@"No objectID");
+    } else {
+        [query whereKey:@"loser" equalTo:[PFUser currentUser].username];
+        [query whereKey:@"winner" equalTo:[PFUser currentUser].username];
+        [query orderByAscending:@"createdAt"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } else {
+                if (self.pastChallenges != nil) {
+                    self.pastChallenges = nil;
+                }
+                self.pastChallenges = [[NSMutableArray alloc] initWithArray:objects];
+                
+                NSLog(@"pastChallenges count %d", [self.pastChallenges count]);
+                
+                [self.tableView reloadData];
+            }
+            
+            if ([self.refreshControl isRefreshing]) { //ENDS REFRESHING
+                [self.refreshControl endRefreshing];
+            }
+        }];
+        
+    }
+}
+
+//you get a reference to the item at the indexPath, which then gets and sets the titleLabel and subtitleLabel texts on the cell
+- (void)configureBasicCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    PFObject *pastChallenge = [self.pastChallenges objectAtIndex:indexPath.row];
+    NSString *loser = [pastChallenge objectForKey:@"loser"];
+    NSString *winner = [pastChallenge objectForKey:@"winner"];
+    NSString *challenger = [pastChallenge objectForKey:@"challenger"];
+    NSString *challengee = [pastChallenge objectForKey:@"challengee"];
+    NSString *pastChallengeString;
+    if ([loser isEqualToString:[PFUser currentUser].username]) {
+        pastChallengeString = [NSString stringWithFormat:@"%@ -> %@   L", challenger, challengee];
+    } else {
+        pastChallengeString = [NSString stringWithFormat:@"%@ -> %@   W", challenger, challengee];
+    }
+    [self setPostForCell:cell item:pastChallengeString];
+}
+
+//set labels
+- (void)setPostForCell:(UITableViewCell *)cell item:(NSString *)item {
+    NSString *text = item;
+    cell.textLabel.text = text;
+}
 
 - (void)checkForExistingChallenge {
     self.challenges = nil;
@@ -346,6 +424,43 @@
                 }];
             }
         }];
+        
+        //RECORDING PAST.
+        NSString *message1 = @"past challenge";
+        NSData *fileData1 = [message1 dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *fileName1 = @"pastChallenge";
+        NSString *fileType1 = @"string";
+        NSString *challenger = [self.currentChallenge objectForKey:@"challenger"];
+        NSString *challengee = [self.currentChallenge objectForKey:@"challengee"];
+        
+        NSDate *today = [NSDate date];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"MM/dd"];
+        NSString *dateString = [dateFormat stringFromDate:today];
+        
+        PFFile *file1 = [PFFile fileWithName:fileName1 data:fileData1];
+        
+        [file1 saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Can't record past challenge at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alertView show];
+            } else {
+                PFObject *message = [PFObject objectWithClassName:@"PastChallenges"];
+                [message setObject:currentUser.username forKey:@"winner"]; //Creating classes to save message to in parse
+                [message setObject:self.otherUser.username forKey:@"loser"];
+                [message setObject:challenger forKey:@"challenger"];
+                [message setObject:challengee forKey:@"challengee"];
+                [message setObject:dateString forKey:@"dateString"];
+                [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Please try sending your message again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                        [alertView show];
+                    } else {
+                        //IT WORKED.
+                    }
+                }];
+            }
+        }];
 
         
         
@@ -409,6 +524,9 @@
         NSData *fileData1 = [message1 dataUsingEncoding:NSUTF8StringEncoding];
         NSString *fileName1 = @"pastChallenge";
         NSString *fileType1 = @"string";
+        NSString *challenger = [self.currentChallenge objectForKey:@"challenger"];
+        NSString *challengee = [self.currentChallenge objectForKey:@"challengee"];
+        
         
         NSDate *today = [NSDate date];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -425,6 +543,8 @@
                 PFObject *message = [PFObject objectWithClassName:@"PastChallenges"];
                 [message setObject:currentUser.username forKey:@"loser"]; //Creating classes to save message to in parse
                 [message setObject:self.otherUser.username forKey:@"winner"];
+                [message setObject:challenger forKey:@"challenger"];
+                [message setObject:challengee forKey:@"challengee"];
                 [message setObject:dateString forKey:@"dateString"];
                 [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {

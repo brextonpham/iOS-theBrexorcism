@@ -27,6 +27,7 @@
 @property (strong, nonatomic) NSMutableArray *currentUserBridgeArrayLosses;
 @property (strong, nonatomic) NSMutableArray *currentUserBridgeArrayWins;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSMutableArray *pastChallenges;
 
 - (IBAction)winButton:(id)sender;
 - (IBAction)loseButton:(id)sender;
