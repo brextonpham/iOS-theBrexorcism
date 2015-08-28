@@ -24,6 +24,8 @@
 @property BOOL recordFlag;
 @property BOOL bridgeFlag1;
 @property BOOL bridgeFlag2;
+@property CGFloat currentUserWins;
+@property CGFloat currentUserLosses;
 @property (strong, nonatomic) PFObject *currentChallenge;
 @property (strong, nonatomic) PFObject *acceptedChallenge;
 @property (strong, nonatomic) PFObject *notYetChallenge;

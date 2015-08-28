@@ -54,6 +54,7 @@
                     NSLog(@"whats up 1");
                     self.currentBridge = self.currentUserBridgeArrayWins[0];
                     NSNumber *number = [self.currentUserBridgeArrayWins[0] objectForKey:@"updatedWins"];
+                    self.currentUserWins = [number floatValue];
                     [currentUser setObject:number forKey:@"wins"];
                     [currentUser saveInBackground];
                     NSUInteger number2 = [number integerValue];
@@ -61,13 +62,24 @@
                     self.winsLabel.text = number3;
                 } else {
                     NSNumber *wins = [currentUser objectForKey:@"wins"];
+                    self.currentUserWins = [wins floatValue];
                     NSInteger winsInt = [wins longValue];
                     NSString *winsStr = [NSString stringWithFormat:@"%ld", (long)winsInt];
                     self.winsLabel.text = winsStr;
                 }
             }
             self.bridgeFlag1 = YES;
+            NSLog(@" self.currentUserWins = %d", self.currentUserWins);
             if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+                if (self.currentUserLosses != 0) {
+                    float ratioFloat = self.currentUserWins/self.currentUserLosses;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                } else {
+                    float ratioFloat = self.currentUserWins;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                }
                 [self.currentBridge deleteInBackground];
             }
         }];
@@ -91,6 +103,7 @@
                     NSLog(@"whats up FUCKER");
                     self.currentBridge = self.currentUserBridgeArrayLosses[0];
                     NSNumber *number = [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"];
+                    self.currentUserLosses = [number floatValue];
                     [currentUser setObject:number forKey:@"losses"];
                     [currentUser saveInBackground];
                     NSUInteger number2 = [number integerValue];
@@ -100,6 +113,7 @@
                 } else {
                     NSLog(@"HI");
                     NSNumber *losses = [currentUser objectForKey:@"losses"];
+                    self.currentUserLosses = [losses floatValue];
                     NSInteger lossesInt = [losses longValue];
                     NSString *lossesStr = [NSString stringWithFormat:@"%ld", (long)lossesInt];
                     self.lossesLabel.text = lossesStr;
@@ -108,15 +122,19 @@
             }
             self.bridgeFlag2 = YES;
             if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+                if (self.currentUserLosses != 0) {
+                    CGFloat ratioFloat = self.currentUserWins/self.currentUserLosses;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                } else {
+                    CGFloat ratioFloat = self.currentUserWins;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                }
                 [self.currentBridge deleteInBackground];
             }
         }];
     }
-    
-    NSNumber *ratio = [currentUser objectForKey:@"ratio"];
-    float ratioFloat = [ratio floatValue];
-    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
-    self.ratioLabel.text = ratioStr;
     
     NSNumber *rankNumber = [currentUser objectForKey:@"rank"];
     NSUInteger rankInt = [rankNumber integerValue];
@@ -155,6 +173,7 @@
                     NSLog(@"whats up 1");
                     self.currentBridge = self.currentUserBridgeArrayWins[0];
                     NSNumber *number = [self.currentUserBridgeArrayWins[0] objectForKey:@"updatedWins"];
+                    self.currentUserWins = [number floatValue];
                     [currentUser setObject:number forKey:@"wins"];
                     [currentUser saveInBackground];
                     NSUInteger number2 = [number integerValue];
@@ -162,13 +181,24 @@
                     self.winsLabel.text = number3;
                 } else {
                     NSNumber *wins = [currentUser objectForKey:@"wins"];
+                    self.currentUserWins = [wins floatValue];
                     NSInteger winsInt = [wins longValue];
                     NSString *winsStr = [NSString stringWithFormat:@"%ld", (long)winsInt];
                     self.winsLabel.text = winsStr;
                 }
             }
             self.bridgeFlag1 = YES;
+            NSLog(@" self.currentUserWins = %d", self.currentUserWins);
             if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+                if (self.currentUserLosses != 0) {
+                    float ratioFloat = self.currentUserWins/self.currentUserLosses;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                } else {
+                    float ratioFloat = self.currentUserWins;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                }
                 [self.currentBridge deleteInBackground];
             }
         }];
@@ -192,6 +222,7 @@
                     NSLog(@"whats up FUCKER");
                     self.currentBridge = self.currentUserBridgeArrayLosses[0];
                     NSNumber *number = [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"];
+                    self.currentUserLosses = [number floatValue];
                     [currentUser setObject:number forKey:@"losses"];
                     [currentUser saveInBackground];
                     NSUInteger number2 = [number integerValue];
@@ -201,6 +232,7 @@
                 } else {
                     NSLog(@"HI");
                     NSNumber *losses = [currentUser objectForKey:@"losses"];
+                    self.currentUserLosses = [losses floatValue];
                     NSInteger lossesInt = [losses longValue];
                     NSString *lossesStr = [NSString stringWithFormat:@"%ld", (long)lossesInt];
                     self.lossesLabel.text = lossesStr;
@@ -209,16 +241,19 @@
             }
             self.bridgeFlag2 = YES;
             if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+                if (self.currentUserLosses != 0) {
+                    CGFloat ratioFloat = self.currentUserWins/self.currentUserLosses;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                } else {
+                    CGFloat ratioFloat = self.currentUserWins;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                }
                 [self.currentBridge deleteInBackground];
             }
         }];
     }
-
-    
-    NSNumber *ratio = [currentUser objectForKey:@"ratio"];
-    float ratioFloat = [ratio floatValue];
-    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
-    self.ratioLabel.text = ratioStr;
     
     NSNumber *rankNumber = [currentUser objectForKey:@"rank"];
     NSUInteger rankInt = [rankNumber integerValue];
