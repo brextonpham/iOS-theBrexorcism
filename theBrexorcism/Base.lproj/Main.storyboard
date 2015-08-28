@@ -86,8 +86,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="The Brexorcism" id="i7b-Bt-y3H">
-                        <barButtonItem key="leftBarButtonItem" title="Rules" id="6av-FR-fTl"/>
+                        <barButtonItem key="leftBarButtonItem" title="Rules" id="6av-FR-fTl">
+                            <color key="tintColor" white="0.0" alpha="0.56000000000000005" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Log Out" id="vDI-zj-xJh">
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.56000000000000005" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="logOut:" destination="vXZ-lx-hvc" id="IfN-aq-nIX"/>
                             </connections>
@@ -104,11 +107,11 @@
             </objects>
             <point key="canvasLocation" x="946.5" y="357.5"/>
         </scene>
-        <!--Item-->
+        <!--Ladder-->
         <scene sceneID="Bda-8F-39y">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UOT-AU-x2i" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="gOC-e1-ucX"/>
+                    <tabBarItem key="tabBarItem" title="Ladder" image="sample-302-swords" id="gOC-e1-ucX"/>
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DHz-uD-erC">
@@ -416,7 +419,7 @@
             </objects>
             <point key="canvasLocation" x="1907.5" y="362.5"/>
         </scene>
-        <!--Item-->
+        <!--Me-->
         <scene sceneID="0bF-WA-dU5">
             <objects>
                 <viewController id="xTC-ch-nuX" customClass="meVC" sceneMemberID="viewController">
@@ -428,18 +431,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="pj4-1u-Zin">
-                                <rect key="frame" x="0.0" y="458" width="375" height="209"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="why" rowHeight="62" id="XZY-ky-1Ew">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XZY-ky-1Ew" id="SMk-AJ-7G4">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qPe-hN-hE6">
                                 <rect key="frame" x="0.0" y="20" width="375" height="76"/>
                                 <subviews>
@@ -573,10 +564,53 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.68235294117647061" green="0.68235294117647061" blue="0.68235294117647061" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="pj4-1u-Zin">
+                                <rect key="frame" x="0.0" y="458" width="375" height="209"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="why" rowHeight="80" id="XZY-ky-1Ew" customClass="myPastChallengesCell">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XZY-ky-1Ew" id="SMk-AJ-7G4">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="W" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZcI-RU-RyG">
+                                                    <rect key="frame" x="301" y="28" width="35" height="24"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="25"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.62" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H2T-ky-cPZ">
+                                                    <rect key="frame" x="8" y="27" width="116" height="26"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fes-eh-Eua">
+                                                    <rect key="frame" x="184" y="27" width="119" height="26"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="VS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wox-R4-5dq">
+                                                    <rect key="frame" x="138" y="24" width="28" height="31"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="22"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="challengeeLabel" destination="Fes-eh-Eua" id="3uK-nN-toI"/>
+                                            <outlet property="challengerLabel" destination="H2T-ky-cPZ" id="wUs-O9-kC2"/>
+                                            <outlet property="resultsLabel" destination="ZcI-RU-RyG" id="2Oc-0s-Nup"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.38431372549999998" green="0.38431372549999998" blue="0.38431372549999998" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="lwX-Fh-AGL"/>
+                    <tabBarItem key="tabBarItem" title="Me" image="sample-504-doghouse" id="lwX-Fh-AGL"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="currentChallengeNameLabel" destination="nLr-Jf-oS3" id="KKA-cJ-Gw5"/>
@@ -593,11 +627,11 @@
             </objects>
             <point key="canvasLocation" x="500.5" y="-377.5"/>
         </scene>
-        <!--Item-->
+        <!--Current-->
         <scene sceneID="pbf-Un-fac">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5mx-lG-n7x" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="whq-ob-fII"/>
+                    <tabBarItem key="tabBarItem" title="Current" image="sample-401-globe" id="whq-ob-fII"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fhf-B1-PLG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -860,6 +894,9 @@
         <image name="challenge1" width="640" height="468"/>
         <image name="josephbw" width="640" height="640"/>
         <image name="roxanne1bw" width="960" height="720"/>
+        <image name="sample-302-swords" width="30" height="25"/>
+        <image name="sample-401-globe" width="28" height="28"/>
+        <image name="sample-504-doghouse" width="28" height="28"/>
         <image name="whoaBW" width="640" height="640"/>
     </resources>
 </document>

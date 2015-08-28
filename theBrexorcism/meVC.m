@@ -8,6 +8,7 @@
 
 #import "meVC.h"
 #import "challengeBrexceptVC.h"
+#import "myPastChallengesCell.h"
 
 @interface meVC ()
 
@@ -512,7 +513,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"why";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    myPastChallengesCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     [self configureBasicCell:cell atIndexPath:indexPath];
     [cell setNeedsLayout];
     [cell layoutIfNeeded];
@@ -559,19 +560,23 @@
 }
 
 //you get a reference to the item at the indexPath, which then gets and sets the titleLabel and subtitleLabel texts on the cell
-- (void)configureBasicCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+- (void)configureBasicCell:(myPastChallengesCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     PFObject *pastChallenge = [self.pastChallenges objectAtIndex:indexPath.row];
     NSString *loser = [pastChallenge objectForKey:@"loser"];
     NSString *winner = [pastChallenge objectForKey:@"winner"];
     NSString *challenger = [pastChallenge objectForKey:@"challenger"];
     NSString *challengee = [pastChallenge objectForKey:@"challengee"];
     NSString *pastChallengeString;
+    cell.challengerLabel.text = challenger;
+    cell.challengeeLabel.text = challengee;
     if ([loser isEqualToString:[PFUser currentUser].username]) {
-        pastChallengeString = [NSString stringWithFormat:@"%@ -> %@   L", challenger, challengee];
+        
+        cell.resultsLabel.text = @"L";
+        
     } else {
-        pastChallengeString = [NSString stringWithFormat:@"%@ -> %@   W", challenger, challengee];
+        cell.resultsLabel.text = @"W";
     }
-    [self setPostForCell:cell item:pastChallengeString];
+    //[self setPostForCell:cell item:pastChallengeString];
 }
 
 //set labels
