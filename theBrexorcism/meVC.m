@@ -454,6 +454,29 @@
         [currentUser setObject:currentUserWins forKey:@"wins"];
         [currentUser saveInBackground];
         
+        NSString *challenger = [self.currentChallenge objectForKey:@"challenger"];
+        NSString *challengee = [self.currentChallenge objectForKey:@"challengee"];
+        NSNumber *currentUserRankNumber = [currentUser objectForKey:@"rank"];
+        NSUInteger currentUserRankInt = [currentUserRankNumber integerValue];
+        
+        NSString *currentUserRank = [NSString stringWithFormat:@"%@",  @(currentUserRankInt)];
+        NSString *poundSign = @"#";
+        NSString *rankString = [NSString stringWithFormat:@"%@%@", poundSign, currentUserRank];
+        
+        NSNumber *otherUserRankNumber = [self.otherUser objectForKey:@"rank"];
+        NSUInteger otherUserRankInt = [otherUserRankNumber integerValue];
+        
+        
+        if ([currentUser.username isEqualToString:@"challenger"]) {
+            //handle case when challengee is only one rank away -> swap places
+            if (otherUserRankInt - currentUserRankInt == 1) {
+                NSNumber *temp = currentUserRankNumber;
+                currentUserRankNumber = otherUserRankNumber;
+                [currentUser setObject:currentUserRankNumber forKey:@"rank"];
+                otherUserRankNumber = temp;
+                //how to upload to bridge?
+            }
+        }
         
         //LOSIN.
         NSNumber *otherUserLosses = [self.otherUser objectForKey:@"losses"];
@@ -498,8 +521,6 @@
         NSData *fileData1 = [message1 dataUsingEncoding:NSUTF8StringEncoding];
         NSString *fileName1 = @"pastChallenge";
         NSString *fileType1 = @"string";
-        NSString *challenger = [self.currentChallenge objectForKey:@"challenger"];
-        NSString *challengee = [self.currentChallenge objectForKey:@"challengee"];
         
         NSDate *today = [NSDate date];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -607,6 +628,8 @@
         NSString *challenger = [self.currentChallenge objectForKey:@"challenger"];
         NSString *challengee = [self.currentChallenge objectForKey:@"challengee"];
         
+        //case is handled where the currentUser is the challenger and loses
+        
         
         NSDate *today = [NSDate date];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -640,8 +663,6 @@
                 }];
             }
         }];
-        
-        //[self.currentChallenge deleteInBackground];
     }
 }
 @end
