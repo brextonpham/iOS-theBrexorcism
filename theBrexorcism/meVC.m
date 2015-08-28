@@ -127,14 +127,6 @@
     self.rankLabel.text = rankString;
     
     [self checkForExistingChallenge];
-    
-    
-
-
-    if (self.currentChallenge != nil) {
-        NSLog(@" currentChallenge still here: %@", [self.currentChallenge objectForKey:@"challenger"]);
-    }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -341,6 +333,7 @@
 
 - (void)checkForExistingChallenge {
     self.challenges = nil;
+    self.currentChallenge = nil;
     PFQuery *query = [PFQuery queryWithClassName:@"Challenges"];
     if ([[PFUser currentUser] objectId] == nil) {
         NSLog(@"No objectID");
@@ -381,8 +374,10 @@
                 [self performSegueWithIdentifier:@"showBrexcept" sender:self];
             }
             
+            NSLog(@"current challenge what the fuck %@", [self.currentChallenge objectForKey:@"challenger"]);
             
             if (self.currentChallenge == nil) {
+                NSLog(@"current challenge what the fuck part 2 %@", [self.currentChallenge objectForKey:@"challenger"]);
                 self.currentChallengeNameLabel.text = @"N/A";
             } else {
                 NSString *challengeeName = [self.currentChallenge objectForKey:@"challengee"];
