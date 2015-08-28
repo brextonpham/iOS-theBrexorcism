@@ -256,14 +256,17 @@
 
 - (void)retrievePastChallenges {
     /* Retrieving all messages */
-    PFQuery *query = [PFQuery queryWithClassName:@"PastChallenges"];
+    PFQuery *query1 = [PFQuery queryWithClassName:@"PastChallenges"];
+    PFQuery *query2 = [PFQuery queryWithClassName:@"PastChallenges"];
     if ([[PFUser currentUser] objectId] == nil) {
         NSLog(@"No objectID");
     } else {
-        [query whereKey:@"loser" equalTo:[PFUser currentUser].username];
-        [query whereKey:@"winner" equalTo:[PFUser currentUser].username];
-        [query orderByAscending:@"createdAt"];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        //[query whereKey:@"loser" equalTo:[PFUser currentUser].username];
+        [query1 whereKey:@"winner" equalTo:[PFUser currentUser].username];
+        [query2 whereKey:@"loser" equalTo:[PFUser currentUser].username];
+        PFQuery *mainQuery = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+        [mainQuery orderByAscending:@"createdAt"];
+        [mainQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (error) {
                 NSLog(@"Error: %@ %@", error, [error userInfo]);
             } else {
@@ -271,6 +274,7 @@
                     self.pastChallenges = nil;
                 }
                 self.pastChallenges = [[NSMutableArray alloc] initWithArray:objects];
+                
                 
                 NSLog(@"pastChallenges count %d", [self.pastChallenges count]);
                 
