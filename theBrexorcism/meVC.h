@@ -24,6 +24,7 @@
 @property BOOL recordFlag;
 @property BOOL bridgeFlag1;
 @property BOOL bridgeFlag2;
+@property BOOL bridgeFlag3;
 @property CGFloat currentUserWins;
 @property CGFloat currentUserLosses;
 @property (strong, nonatomic) PFObject *currentChallenge;
@@ -32,10 +33,12 @@
 @property (strong, nonatomic) PFUser *otherUser;
 @property (strong, nonatomic) NSMutableArray *currentUserBridgeArrayLosses;
 @property (strong, nonatomic) NSMutableArray *currentUserBridgeArrayWins;
+@property (strong, nonatomic) NSMutableArray *currentUserBridgeArrayRank;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSMutableArray *pastChallenges;
+@property (strong, nonatomic) NSMutableArray *ladder;
 @property (strong, nonatomic) PFObject *currentBridge;
-
+@property (strong, nonatomic) PFUser *thirdUser;
 
 - (IBAction)winButton:(id)sender;
 - (IBAction)loseButton:(id)sender;

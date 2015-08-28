@@ -70,7 +70,7 @@
             }
             self.bridgeFlag1 = YES;
             NSLog(@" self.currentUserWins = %d", self.currentUserWins);
-            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES  && self.bridgeFlag3 == YES) {
                 if (self.currentUserLosses != 0) {
                     float ratioFloat = self.currentUserWins/self.currentUserLosses;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
@@ -121,7 +121,7 @@
                 }
             }
             self.bridgeFlag2 = YES;
-            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES  && self.bridgeFlag3 == YES) {
                 if (self.currentUserLosses != 0) {
                     CGFloat ratioFloat = self.currentUserWins/self.currentUserLosses;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
@@ -136,13 +136,70 @@
         }];
     }
     
-    NSNumber *rankNumber = [currentUser objectForKey:@"rank"];
-    NSUInteger rankInt = [rankNumber integerValue];
-    NSString *rank = [NSString stringWithFormat:@"%@",  @(rankInt)];
-    NSString *poundSign = @"#";
-    NSString *rankString = [NSString stringWithFormat:@"%@%@", poundSign, rank];
+    //watch out for bridge being deleted
     
-    self.rankLabel.text = rankString;
+    PFQuery *rankQuery1 = [PFQuery queryWithClassName:@"Bridge"];
+    PFQuery *rankQuery2 = [PFQuery queryWithClassName:@"Bridge"];
+    if ([[PFUser currentUser] objectId] == nil) {
+        NSLog(@"No objectID");
+    } else {
+        [rankQuery1 whereKey:@"username" equalTo:[PFUser currentUser].username];
+        [rankQuery2 whereKey:@"thirdUser" equalTo:[PFUser currentUser].username];
+        PFQuery *mainRankQuery = [PFQuery orQueryWithSubqueries:@[rankQuery1,rankQuery2]];
+        [mainRankQuery orderByDescending:@"createdAt"];
+        [mainRankQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } else {
+                if (self.currentUserBridgeArrayRank != nil) {
+                    self.currentUserBridgeArrayRank = nil;
+                }
+                self.currentUserBridgeArrayRank = [[NSMutableArray alloc] initWithArray:objects];
+                if (([self.currentUserBridgeArrayRank count] > 0 && [self.currentUserBridgeArrayRank[0] objectForKey:@"updatedRankNumberForOtherUser"] > 0) || ([self.currentUserBridgeArrayRank count] > 0 && [self.currentUserBridgeArrayRank[0] objectForKey:@"thirdUserRankNumber"] > 0)) {
+                    
+                    self.currentBridge = self.currentUserBridgeArrayRank[0];
+                    
+                    if ([[self.currentBridge objectForKey:@"thirdUser"] isEqualToString:currentUser.username]) {
+                        NSNumber *newRank = [self.currentBridge objectForKey:@"thirdUserRankNumber"];
+                        [currentUser setObject:newRank forKey:@"rank"];
+                        [currentUser saveInBackground];
+                        NSUInteger newRankInt = [newRank integerValue];
+                        NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
+                        self.rankLabel.text = newRankStr;
+                    } else if ([[self.currentBridge objectForKey:@"username"] isEqualToString:currentUser.username]) {
+                        NSNumber *newRank = [self.currentBridge objectForKey:@"updatedRankNumberForOtherUser"];
+                        [currentUser setObject:newRank forKey:@"rank"];
+                        [currentUser saveInBackground];
+                        NSUInteger newRankInt = [newRank integerValue];
+                        NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
+                        self.rankLabel.text = newRankStr;
+                    }
+                    
+                } else {
+                    NSNumber *rankNumber = [currentUser objectForKey:@"rank"];
+                    NSUInteger rankInt = [rankNumber integerValue];
+                    NSString *rank = [NSString stringWithFormat:@"%@",  @(rankInt)];
+                    NSString *poundSign = @"#";
+                    NSString *rankString = [NSString stringWithFormat:@"%@%@", poundSign, rank];
+                    self.rankLabel.text = rankString;
+                }
+            }
+            self.bridgeFlag3 = YES;
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES && self.bridgeFlag3 == YES) {
+                if (self.currentUserLosses != 0) {
+                    CGFloat ratioFloat = self.currentUserWins/self.currentUserLosses;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                } else {
+                    CGFloat ratioFloat = self.currentUserWins;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                }
+                [self.currentBridge deleteInBackground];
+            }
+        }];
+    }
+
     
     [self checkForExistingChallenge];
 }
@@ -189,7 +246,7 @@
             }
             self.bridgeFlag1 = YES;
             NSLog(@" self.currentUserWins = %d", self.currentUserWins);
-            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES  && self.bridgeFlag3 == YES) {
                 if (self.currentUserLosses != 0) {
                     float ratioFloat = self.currentUserWins/self.currentUserLosses;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
@@ -240,7 +297,7 @@
                 }
             }
             self.bridgeFlag2 = YES;
-            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES  && self.bridgeFlag3 == YES) {
                 if (self.currentUserLosses != 0) {
                     CGFloat ratioFloat = self.currentUserWins/self.currentUserLosses;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
@@ -255,13 +312,69 @@
         }];
     }
     
-    NSNumber *rankNumber = [currentUser objectForKey:@"rank"];
-    NSUInteger rankInt = [rankNumber integerValue];
-    NSString *rank = [NSString stringWithFormat:@"%@",  @(rankInt)];
-    NSString *poundSign = @"#";
-    NSString *rankString = [NSString stringWithFormat:@"%@%@", poundSign, rank];
+    //watch out for bridge being deleted
     
-    self.rankLabel.text = rankString;
+    PFQuery *rankQuery1 = [PFQuery queryWithClassName:@"Bridge"];
+    PFQuery *rankQuery2 = [PFQuery queryWithClassName:@"Bridge"];
+    if ([[PFUser currentUser] objectId] == nil) {
+        NSLog(@"No objectID");
+    } else {
+        [rankQuery1 whereKey:@"username" equalTo:[PFUser currentUser].username];
+        [rankQuery2 whereKey:@"thirdUser" equalTo:[PFUser currentUser].username];
+        PFQuery *mainRankQuery = [PFQuery orQueryWithSubqueries:@[rankQuery1,rankQuery2]];
+        [mainRankQuery orderByDescending:@"createdAt"];
+        [mainRankQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } else {
+                if (self.currentUserBridgeArrayRank != nil) {
+                    self.currentUserBridgeArrayRank = nil;
+                }
+                self.currentUserBridgeArrayRank = [[NSMutableArray alloc] initWithArray:objects];
+                if (([self.currentUserBridgeArrayRank count] > 0 && [self.currentUserBridgeArrayRank[0] objectForKey:@"updatedRankNumberForOtherUser"] > 0) || ([self.currentUserBridgeArrayRank count] > 0 && [self.currentUserBridgeArrayRank[0] objectForKey:@"thirdUserRankNumber"] > 0)) {
+                    
+                    self.currentBridge = self.currentUserBridgeArrayRank[0];
+                    
+                    if ([[self.currentBridge objectForKey:@"thirdUser"] isEqualToString:currentUser.username]) {
+                        NSNumber *newRank = [self.currentBridge objectForKey:@"thirdUserRankNumber"];
+                        [currentUser setObject:newRank forKey:@"rank"];
+                        [currentUser saveInBackground];
+                        NSUInteger newRankInt = [newRank integerValue];
+                        NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
+                        self.rankLabel.text = newRankStr;
+                    } else if ([[self.currentBridge objectForKey:@"username"] isEqualToString:currentUser.username]) {
+                        NSNumber *newRank = [self.currentBridge objectForKey:@"updatedRankNumberForOtherUser"];
+                        [currentUser setObject:newRank forKey:@"rank"];
+                        [currentUser saveInBackground];
+                        NSUInteger newRankInt = [newRank integerValue];
+                        NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
+                        self.rankLabel.text = newRankStr;
+                    }
+                    
+                } else {
+                    NSNumber *rankNumber = [currentUser objectForKey:@"rank"];
+                    NSUInteger rankInt = [rankNumber integerValue];
+                    NSString *rank = [NSString stringWithFormat:@"%@",  @(rankInt)];
+                    NSString *poundSign = @"#";
+                    NSString *rankString = [NSString stringWithFormat:@"%@%@", poundSign, rank];
+                    self.rankLabel.text = rankString;
+                }
+            }
+            self.bridgeFlag3 = YES;
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES && self.bridgeFlag3 == YES) {
+                if (self.currentUserLosses != 0) {
+                    CGFloat ratioFloat = self.currentUserWins/self.currentUserLosses;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                } else {
+                    CGFloat ratioFloat = self.currentUserWins;
+                    NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
+                    self.ratioLabel.text = ratioStr;
+                }
+                [self.currentBridge deleteInBackground];
+            }
+        }];
+    }
     
     [self checkForExistingChallenge];
     
@@ -466,6 +579,8 @@
         NSNumber *otherUserRankNumber = [self.otherUser objectForKey:@"rank"];
         NSUInteger otherUserRankInt = [otherUserRankNumber integerValue];
         
+        NSNumber *thirdUserRankNumber;
+        
         
         if ([currentUser.username isEqualToString:@"challenger"]) {
             //handle case when challengee is only one rank away -> swap places
@@ -474,7 +589,43 @@
                 currentUserRankNumber = otherUserRankNumber;
                 [currentUser setObject:currentUserRankNumber forKey:@"rank"];
                 otherUserRankNumber = temp;
-                //how to upload to bridge?
+                //upload to bridge
+            } else if (otherUserRankInt - currentUserRankInt == 2) {
+                NSNumber *temp1 = currentUserRankNumber;
+                NSInteger *temp1Int = [temp1 integerValue];
+                NSNumber *temp2 = otherUserRankNumber;
+                NSInteger *thirdUserRankNumberInt = temp1Int + 1;
+                thirdUserRankNumber = [NSNumber numberWithInt:thirdUserRankNumberInt];
+                currentUserRankNumber = otherUserRankNumber;
+                otherUserRankNumber = thirdUserRankNumber;
+                thirdUserRankNumber = temp1;
+                [currentUser setObject:currentUserRankNumber forKey:@"rank"];
+                
+                PFQuery *query = [PFUser query];
+                if ([[PFUser currentUser] objectId] == nil) {
+                    NSLog(@"No objectID");
+                } else {
+                    [query orderByAscending:@"rank"];
+                    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                        if (error) {
+                            NSLog(@"Error: %@ %@", error, [error userInfo]);
+                        } else {
+                            if (self.ladder != nil) {
+                                self.ladder= nil;
+                            }
+                            if (self.thirdUser != nil) {
+                                self.thirdUser = nil;
+                            }
+                            self.ladder = [[NSMutableArray alloc] initWithArray:objects];
+                            self.thirdUser = self.ladder[currentUserRankInt];
+                        }
+                    }];
+                    
+                }
+                // you have the third user and the rankings -> push to bridge
+                
+            } else {
+                //otherUserRankNumber stays the exact same
             }
         }
         
@@ -501,6 +652,9 @@
                 [message setObject:[self.otherUser objectId] forKey:@"userObjectId"];
                 [message setObject:self.otherUser.username forKey:@"username"];
                 [message setObject:otherUserLosses forKey:@"updatedLosses"];
+                [message setObject:otherUserRankNumber forKey:@"updatedRankNumberForOtherUser"];
+                [message setObject:self.thirdUser.username forKey:@"thirdUser"];
+                [message setObject:thirdUserRankNumber forKey:@"thirdUserRankNumber"];
                 [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {
                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Please try sending your message again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -665,4 +819,7 @@
         }];
     }
 }
+
+
+
 @end
