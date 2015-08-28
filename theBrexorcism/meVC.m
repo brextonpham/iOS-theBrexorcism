@@ -209,7 +209,33 @@
             }
         }];
     }
-
+    
+    NSNumber *currentUserRankNumber = [currentUser objectForKey:@"rank"];
+    NSUInteger currentUserRankInt = [currentUserRankNumber integerValue];
+    
+    PFQuery *query = [PFUser query];
+    if ([[PFUser currentUser] objectId] == nil) {
+        NSLog(@"No objectID");
+    } else {
+        [query orderByAscending:@"rank"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } else {
+                NSLog(@"what what what what what what what");
+                if (self.ladder != nil) {
+                    self.ladder= nil;
+                }
+                if (self.thirdUser != nil) {
+                    self.thirdUser = nil;
+                }
+                self.ladder = [[NSMutableArray alloc] initWithArray:objects];
+                self.thirdUser = self.ladder[currentUserRankInt - 2];
+                NSLog(@"THIS IS THE THIRD USER %@", self.thirdUser.username);
+            }
+        }];
+        
+    }
     
     [self checkForExistingChallenge];
 }
@@ -390,6 +416,35 @@
             }
         }];
     }
+    
+    NSNumber *currentUserRankNumber = [currentUser objectForKey:@"rank"];
+    NSUInteger currentUserRankInt = [currentUserRankNumber integerValue];
+    
+    PFQuery *query = [PFUser query];
+    if ([[PFUser currentUser] objectId] == nil) {
+        NSLog(@"No objectID");
+    } else {
+        [query orderByAscending:@"rank"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            } else {
+                NSLog(@"what what what what what what what");
+                if (self.ladder != nil) {
+                    self.ladder= nil;
+                }
+                if (self.thirdUser != nil) {
+                    self.thirdUser = nil;
+                }
+                NSLog(@"currentUserRankInt -> %d", currentUserRankInt);
+                self.ladder = [[NSMutableArray alloc] initWithArray:objects];
+                self.thirdUser = self.ladder[currentUserRankInt - 2];
+                NSLog(@"THIS IS THE THIRD USER %@", self.thirdUser.username);
+            }
+        }];
+        
+    }
+    
     [self checkForExistingChallenge];
     
     [self retrievePastChallenges];
@@ -638,36 +693,15 @@
                 [currentUser setObject:currentUserRankNumber forKey:@"rank"];
                 [currentUser saveInBackground];
                 
-                PFQuery *query = [PFUser query];
-                if ([[PFUser currentUser] objectId] == nil) {
-                    NSLog(@"No objectID");
-                } else {
-                    [query orderByAscending:@"rank"];
-                    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                        if (error) {
-                            NSLog(@"Error: %@ %@", error, [error userInfo]);
-                        } else {
-                            NSLog(@"what what what what what what what");
-                            if (self.ladder != nil) {
-                                self.ladder= nil;
-                            }
-                            if (self.thirdUser != nil) {
-                                self.thirdUser = nil;
-                            }
-                            NSLog(@"currentUserRankInt -> %d", currentUserRankInt);
-                            self.ladder = [[NSMutableArray alloc] initWithArray:objects];
-                            self.thirdUser = self.ladder[currentUserRankInt - 1];
-                            NSLog(@"THIS IS THE THIRD USER %@", self.thirdUser.username);
-                        }
-                    }];
-                    
-                }
+                
                 // you have the third user and the rankings -> push to bridge
                 
             } else {
                 //otherUserRankNumber stays the exact same
             }
         }
+        
+        NSLog(@"THIS IS THE THIRD USER OUTSIDE %@", self.thirdUser.username);
         
         //LOSIN.
         NSNumber *otherUserLosses = [self.otherUser objectForKey:@"losses"];
