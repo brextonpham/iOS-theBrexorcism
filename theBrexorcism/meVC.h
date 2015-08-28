@@ -20,6 +20,10 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *challenges;
 @property BOOL existingChallenge;
+@property BOOL winLossFlag;
+@property BOOL recordFlag;
+@property BOOL bridgeFlag1;
+@property BOOL bridgeFlag2;
 @property (strong, nonatomic) PFObject *currentChallenge;
 @property (strong, nonatomic) PFObject *acceptedChallenge;
 @property (strong, nonatomic) PFObject *notYetChallenge;
@@ -28,6 +32,8 @@
 @property (strong, nonatomic) NSMutableArray *currentUserBridgeArrayWins;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSMutableArray *pastChallenges;
+@property (strong, nonatomic) PFObject *currentBridge;
+
 
 - (IBAction)winButton:(id)sender;
 - (IBAction)loseButton:(id)sender;

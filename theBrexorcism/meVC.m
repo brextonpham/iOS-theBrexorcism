@@ -17,6 +17,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.bridgeFlag1 = NO;
+    self.bridgeFlag2 = NO;
     // Do any additional setup after loading the view.
     
     //Make self the delegate and datasource of the tableview
@@ -50,6 +52,7 @@
                 self.currentUserBridgeArrayWins = [[NSMutableArray alloc] initWithArray:objects];
                 if ([self.currentUserBridgeArrayWins count] > 0 && [self.currentUserBridgeArrayWins[0] objectForKey:@"updatedWins"] > 0) {
                     NSLog(@"whats up 1");
+                    self.currentBridge = self.currentUserBridgeArrayWins[0];
                     NSNumber *number = [self.currentUserBridgeArrayWins[0] objectForKey:@"updatedWins"];
                     [currentUser setObject:number forKey:@"wins"];
                     [currentUser saveInBackground];
@@ -62,6 +65,10 @@
                     NSString *winsStr = [NSString stringWithFormat:@"%ld", (long)winsInt];
                     self.winsLabel.text = winsStr;
                 }
+            }
+            self.bridgeFlag1 = YES;
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+                [self.currentBridge deleteInBackground];
             }
         }];
     }
@@ -82,6 +89,7 @@
                 self.currentUserBridgeArrayLosses = [[NSMutableArray alloc] initWithArray:objects];
                 if ([self.currentUserBridgeArrayLosses count] > 0 && [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"] > 0) {
                     NSLog(@"whats up FUCKER");
+                    self.currentBridge = self.currentUserBridgeArrayLosses[0];
                     NSNumber *number = [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"];
                     [currentUser setObject:number forKey:@"losses"];
                     [currentUser saveInBackground];
@@ -97,6 +105,10 @@
                     self.lossesLabel.text = lossesStr;
                     NSLog(@" SECOND number 3 %@", lossesStr);
                 }
+            }
+            self.bridgeFlag2 = YES;
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+                [self.currentBridge deleteInBackground];
             }
         }];
     }
@@ -119,12 +131,16 @@
     
 
 
-    NSLog(@"FUCKING SHIT. %@", self.otherUser.username);
+    if (self.currentChallenge != nil) {
+        NSLog(@" currentChallenge still here: %@", [self.currentChallenge objectForKey:@"challenger"]);
+    }
     
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.bridgeFlag1 = NO;
+    self.bridgeFlag2 = NO;
     PFUser *currentUser = [PFUser currentUser];
     NSLog(@"%@ on meVC", currentUser.username);
     self.currentUserNameLabel.text = currentUser.username;
@@ -145,6 +161,7 @@
                 self.currentUserBridgeArrayWins = [[NSMutableArray alloc] initWithArray:objects];
                 if ([self.currentUserBridgeArrayWins count] > 0 && [self.currentUserBridgeArrayWins[0] objectForKey:@"updatedWins"] > 0) {
                     NSLog(@"whats up 1");
+                    self.currentBridge = self.currentUserBridgeArrayWins[0];
                     NSNumber *number = [self.currentUserBridgeArrayWins[0] objectForKey:@"updatedWins"];
                     [currentUser setObject:number forKey:@"wins"];
                     [currentUser saveInBackground];
@@ -158,9 +175,12 @@
                     self.winsLabel.text = winsStr;
                 }
             }
+            self.bridgeFlag1 = YES;
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+                [self.currentBridge deleteInBackground];
+            }
         }];
     }
-
     
     PFQuery *lossQuery = [PFQuery queryWithClassName:@"Bridge"];
     if ([[PFUser currentUser] objectId] == nil) {
@@ -176,20 +196,28 @@
                     self.currentUserBridgeArrayLosses = nil;
                 }
                 self.currentUserBridgeArrayLosses = [[NSMutableArray alloc] initWithArray:objects];
-                if ([self.currentUserBridgeArrayLosses count] > 0 && [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"] > 0 ) {
-                    NSLog(@"whats up");
+                if ([self.currentUserBridgeArrayLosses count] > 0 && [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"] > 0) {
+                    NSLog(@"whats up FUCKER");
+                    self.currentBridge = self.currentUserBridgeArrayLosses[0];
                     NSNumber *number = [self.currentUserBridgeArrayLosses[0] objectForKey:@"updatedLosses"];
                     [currentUser setObject:number forKey:@"losses"];
                     [currentUser saveInBackground];
                     NSUInteger number2 = [number integerValue];
                     NSString *number3 = [NSString stringWithFormat:@"%@", @(number2)];
                     self.lossesLabel.text = number3;
+                    NSLog(@"number 3 %@", number3);
                 } else {
+                    NSLog(@"HI");
                     NSNumber *losses = [currentUser objectForKey:@"losses"];
                     NSInteger lossesInt = [losses longValue];
                     NSString *lossesStr = [NSString stringWithFormat:@"%ld", (long)lossesInt];
                     self.lossesLabel.text = lossesStr;
+                    NSLog(@" SECOND number 3 %@", lossesStr);
                 }
+            }
+            self.bridgeFlag2 = YES;
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES) {
+                [self.currentBridge deleteInBackground];
             }
         }];
     }
@@ -379,6 +407,8 @@
 
 
 - (IBAction)winButton:(id)sender {
+    self.winLossFlag = NO;
+    self.recordFlag = NO;
     if (![self.currentChallengeNameLabel.text isEqualToString:@"N/A"]) {
         //PFUser *challengedUser = [self.currentChallenge objectForKey:@"challengee"];
         
@@ -424,6 +454,10 @@
                         [alertView show];
                     } else {
                         //IT WORKED.
+                        self.winLossFlag = YES;
+                        if (self.recordFlag == YES && self.winLossFlag == YES) {
+                            [self.currentChallenge deleteInBackground];
+                        }
                     }
                 }];
             }
@@ -461,6 +495,12 @@
                         [alertView show];
                     } else {
                         //IT WORKED.
+                        self.recordFlag = YES;
+                        NSLog(@"record flag %d", self.recordFlag);
+                        NSLog(@"winloss flag %d", self.winLossFlag);
+                        if (self.recordFlag == YES && self.winLossFlag == YES) {
+                            [self.currentChallenge deleteInBackground];
+                        }
                     }
                 }];
             }
@@ -473,6 +513,8 @@
 }
 
 - (IBAction)loseButton:(id)sender {
+    self.winLossFlag = NO;
+    self.recordFlag = NO;
     if (![self.currentChallengeNameLabel.text isEqualToString:@"N/A"]) {
         //PFUser *challengedUser = [self.currentChallenge objectForKey:@"challengee"];
         
@@ -518,6 +560,10 @@
                         [alertView show];
                     } else {
                         //IT WORKED.
+                        self.winLossFlag = YES;
+                        if (self.recordFlag == YES && self.winLossFlag == YES) {
+                            [self.currentChallenge deleteInBackground];
+                        }
                     }
                 }];
             }
@@ -556,6 +602,10 @@
                         [alertView show];
                     } else {
                         //IT WORKED.
+                        self.recordFlag = YES;
+                        if (self.recordFlag == YES && self.winLossFlag == YES) {
+                            [self.currentChallenge deleteInBackground];
+                        }
                     }
                 }];
             }
