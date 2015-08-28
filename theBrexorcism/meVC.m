@@ -19,7 +19,6 @@
     [super viewDidLoad];
     self.bridgeFlag1 = NO;
     self.bridgeFlag2 = NO;
-    // Do any additional setup after loading the view.
     
     //Make self the delegate and datasource of the tableview
     [self.tableView setDelegate:self];
@@ -581,16 +580,29 @@
         
         NSNumber *thirdUserRankNumber;
         
+        NSLog(@" otherUserRankInt from Brexton: %d", otherUserRankInt); //1
+        NSLog(@" currentUserRankInt from Brexton %d", currentUserRankInt); //2
         
-        if ([currentUser.username isEqualToString:@"challenger"]) {
+        NSLog(@"currentUser.username from Brexton %@", currentUser.username);
+
+        
+        if ([currentUser.username isEqualToString:challenger]) {
             //handle case when challengee is only one rank away -> swap places
-            if (otherUserRankInt - currentUserRankInt == 1) {
-                NSNumber *temp = currentUserRankNumber;
-                currentUserRankNumber = otherUserRankNumber;
+            NSLog(@"the names are equal!");
+            if (currentUserRankInt - otherUserRankInt == 1) { //2 - 1
+                NSLog(@"passed the conditional o yea");
+                NSNumber *temp = currentUserRankNumber; //2
+                currentUserRankNumber = otherUserRankNumber; //1
                 [currentUser setObject:currentUserRankNumber forKey:@"rank"];
-                otherUserRankNumber = temp;
+                [currentUser saveInBackground];
+                
+                otherUserRankNumber = temp; //2
+                
+                
                 //upload to bridge
-            } else if (otherUserRankInt - currentUserRankInt == 2) {
+                
+                
+            } else if (currentUserRankInt - otherUserRankInt == 2) {
                 NSNumber *temp1 = currentUserRankNumber;
                 NSInteger *temp1Int = [temp1 integerValue];
                 NSNumber *temp2 = otherUserRankNumber;
@@ -600,6 +612,7 @@
                 otherUserRankNumber = thirdUserRankNumber;
                 thirdUserRankNumber = temp1;
                 [currentUser setObject:currentUserRankNumber forKey:@"rank"];
+                [currentUser saveInBackground];
                 
                 PFQuery *query = [PFUser query];
                 if ([[PFUser currentUser] objectId] == nil) {
@@ -610,14 +623,17 @@
                         if (error) {
                             NSLog(@"Error: %@ %@", error, [error userInfo]);
                         } else {
+                            NSLog(@"what what what what what what what");
                             if (self.ladder != nil) {
                                 self.ladder= nil;
                             }
                             if (self.thirdUser != nil) {
                                 self.thirdUser = nil;
                             }
+                            NSLog(@"HI MOM");
                             self.ladder = [[NSMutableArray alloc] initWithArray:objects];
                             self.thirdUser = self.ladder[currentUserRankInt];
+                            NSLog(@"THIS IS THE THIRD USER %@", self.thirdUser.username);
                         }
                     }];
                     
@@ -634,8 +650,8 @@
         NSUInteger *otherUserLossesInt = [otherUserLosses integerValue] + 1;
         otherUserLosses = [NSNumber numberWithInteger:otherUserLossesInt];
         
-        NSString *message = @"finished challenge";
-        NSData *fileData = [message dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *messageStupid = @"finished challenge";
+        NSData *fileData = [messageStupid dataUsingEncoding:NSUTF8StringEncoding];
         NSString *fileName = @"finishedChallenge";
         NSString *fileType = @"string";
         
@@ -646,21 +662,28 @@
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Can't bridge at this time." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alertView show];
             } else {
-                PFObject *message = [PFObject objectWithClassName:@"Bridge"];
-                [message setObject:file forKey:@"file"]; //Creating classes to save message to in parse
-                [message setObject:fileType forKey:@"fileType"];
-                [message setObject:[self.otherUser objectId] forKey:@"userObjectId"];
-                [message setObject:self.otherUser.username forKey:@"username"];
-                [message setObject:otherUserLosses forKey:@"updatedLosses"];
-                [message setObject:otherUserRankNumber forKey:@"updatedRankNumberForOtherUser"];
-                [message setObject:self.thirdUser.username forKey:@"thirdUser"];
-                [message setObject:thirdUserRankNumber forKey:@"thirdUserRankNumber"];
-                [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                NSLog(@" did i at least make it in here part O COME ON");
+                PFObject *messageThe = [PFObject objectWithClassName:@"Bridge"];
+                [messageThe setObject:file forKey:@"file"]; //Creating classes to save message to in parse
+                [messageThe setObject:fileType forKey:@"fileType"];
+                [messageThe setObject:[self.otherUser objectId] forKey:@"userObjectId"];
+                [messageThe setObject:self.otherUser.username forKey:@"username"];
+                [messageThe setObject:otherUserLosses forKey:@"updatedLosses"];
+                [messageThe setObject:otherUserRankNumber forKey:@"updatedRankNumberForOtherUser"];
+                
+                if (self.thirdUser != nil) {
+                    [messageThe setObject:self.thirdUser.username forKey:@"thirdUser"];
+                    [messageThe setObject:thirdUserRankNumber forKey:@"thirdUserRankNumber"];
+                }
+                
+                [messageThe saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {
+                        NSLog(@" did i at least make it in here part 1");
                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!" message:@"Please try sending your message again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                         [alertView show];
                     } else {
                         //IT WORKED.
+                        NSLog(@" did i at least make it in here part 2");
                         self.winLossFlag = YES;
                         if (self.recordFlag == YES && self.winLossFlag == YES) {
                             [self.currentChallenge deleteInBackground];
@@ -819,6 +842,7 @@
         }];
     }
 }
+
 
 
 
