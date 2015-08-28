@@ -153,8 +153,10 @@
     PFUser *user = [self.ladder objectAtIndex:indexPath.row];
     NSString *name = user.username;
     NSNumber *rank = [user objectForKey:@"rank"];
+    NSString *ratio = [user objectForKey:@"ratio"];
+    NSString *ratioString = [NSString stringWithFormat:@"Ratio: %@", ratio];
     NSUInteger rankInt = [rank integerValue];
-    NSString *rankString = [NSString stringWithFormat:@"%@",  @(rankInt)];
+    NSString *rankString = [NSString stringWithFormat:@"Rank: %@",  @(rankInt)];
     NSString *text = [NSString stringWithFormat: @"%@ %@", rankString, name];
     
     cell.delegate = self;
@@ -169,13 +171,15 @@
         cell.challengeButtonOutlet.hidden = YES;
     }
     
-    [self setPostForCell:cell item:text];
+    [self setPostForCell:cell item:name rank:rankString ratio:ratioString];
 }
 
 //set labels
-- (void)setPostForCell:(ladderCell *)cell item:(NSString *)item {
+- (void)setPostForCell:(ladderCell *)cell item:(NSString *)item rank:(NSString *)rank ratio:(NSString *)ratio{
     NSString *name = item;
-    cell.textLabel.text = name;
+    cell.nameLabel.text = name;
+    cell.rankLabel.text = rank;
+    cell.ratioLabel.text = ratio;
 }
 
 - (IBAction)logOut:(id)sender {

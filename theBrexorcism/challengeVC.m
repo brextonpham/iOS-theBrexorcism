@@ -47,6 +47,11 @@
         NSString *fileName = @"challenge";
         NSString *fileType = @"string";
         
+        NSDate *today = [NSDate date];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"MM/dd"];
+        NSString *dateString = [dateFormat stringFromDate:today];
+        
         PFFile *file = [PFFile fileWithName:fileName data:fileData];
         
         [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -61,6 +66,7 @@
                 [message setObject:self.challengedUser.username forKey:@"challengee"];
                 [message setObject:self.currentUser.username forKey:@"challenger"];
                 [message setObject:@"No" forKey:@"Accepted"];
+                [message setObject:dateString forKey:@"date"];
                 [message setObject:[[PFUser currentUser] objectId] forKey:@"senderId"];
                 [message setObject:[[PFUser currentUser] username] forKey:@"senderName"];
                 [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

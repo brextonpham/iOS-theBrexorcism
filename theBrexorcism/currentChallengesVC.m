@@ -7,6 +7,7 @@
 //
 
 #import "currentChallengesVC.h"
+#import "currentChallengesCellTableViewCell.h"
 
 @interface currentChallengesVC ()
 
@@ -60,11 +61,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"whoAreYou";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    currentChallengesCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     [self configureBasicCell:cell atIndexPath:indexPath];
     [cell setNeedsLayout];
     [cell layoutIfNeeded];
-    //[cell.challengeButtonOutlet setBackgroundColor:[UIColor redColor]];
     
     return cell;
 }
@@ -102,18 +102,26 @@
 }
 
 //you get a reference to the item at the indexPath, which then gets and sets the titleLabel and subtitleLabel texts on the cell
-- (void)configureBasicCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+- (void)configureBasicCell:(currentChallengesCellTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     PFObject *challenge = [self.challenges objectAtIndex:indexPath.row];
     NSString *challenger = [challenge objectForKey:@"challenger"];
     NSString *challengee = [challenge objectForKey:@"challengee"];
-    NSString *currentChallengeString = [NSString stringWithFormat:@"%@ -> %@", challenger, challengee];
-    [self setPostForCell:cell item:currentChallengeString];
+    
+    cell.challengeeNameLabel.text = challengee;
+    cell.challengerNameLabel.text = challenger;
+    
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"MM/dd"];
+    NSString *dateString = [dateFormat stringFromDate:today];
+    
+    [self setPostForCell:cell item:dateString];
 }
 
 //set labels
-- (void)setPostForCell:(UITableViewCell *)cell item:(NSString *)item {
+- (void)setPostForCell:(currentChallengesCellTableViewCell *)cell item:(NSString *)item {
     NSString *text = item;
-    cell.textLabel.text = text;
+    cell.dateLabel.text = text;
 }
 
 

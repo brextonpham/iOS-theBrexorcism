@@ -74,10 +74,14 @@
                     float ratioFloat = self.currentUserWins/self.currentUserLosses;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 } else {
                     float ratioFloat = self.currentUserWins;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 }
             }
         }];
@@ -124,10 +128,14 @@
                     CGFloat ratioFloat = self.currentUserWins/self.currentUserLosses;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 } else {
                     CGFloat ratioFloat = self.currentUserWins;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 }
             }
         }];
@@ -202,10 +210,14 @@
                     CGFloat ratioFloat = self.currentUserWins/self.currentUserLosses;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 } else {
                     CGFloat ratioFloat = self.currentUserWins;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 }
             }
             if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES && self.bridgeFlag3 == YES && [self.currentBridge objectForKey:@"thirdUserRankNumber"] == [NSNumber numberWithInt:0] && [self.currentBridge objectForKey:@"updatedRankNumberForOtherUser"] == [NSNumber numberWithInt:0]) {
@@ -291,10 +303,14 @@
                     float ratioFloat = self.currentUserWins/self.currentUserLosses;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 } else {
                     float ratioFloat = self.currentUserWins;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 }
             }
         }];
@@ -341,10 +357,14 @@
                     CGFloat ratioFloat = self.currentUserWins/self.currentUserLosses;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 } else {
                     CGFloat ratioFloat = self.currentUserWins;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 }
             }
         }];
@@ -413,10 +433,14 @@
                     CGFloat ratioFloat = self.currentUserWins/self.currentUserLosses;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 } else {
                     CGFloat ratioFloat = self.currentUserWins;
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
+                    [currentUser setObject:ratioStr forKey:@"ratio"];
+                    [currentUser saveInBackground];
                 }
             }
             if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES && self.bridgeFlag3 == YES && [self.currentBridge objectForKey:@"thirdUserRankNumber"] == [NSNumber numberWithInt:0] && [self.currentBridge objectForKey:@"updatedRankNumberForOtherUser"] == [NSNumber numberWithInt:0]) {

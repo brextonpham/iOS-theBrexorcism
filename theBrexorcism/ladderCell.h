@@ -21,6 +21,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *challengeButtonOutlet;
 @property (strong, nonatomic) PFUser *challengedUser;
 @property (nonatomic, weak) id<LadderCellDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *rankLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ratioLabel;
+
 
 - (IBAction)challengeButtonAction:(id)sender;
 
