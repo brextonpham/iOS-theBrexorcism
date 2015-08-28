@@ -166,7 +166,9 @@
                         [currentUser saveInBackground];
                         NSUInteger newRankInt = [newRank integerValue];
                         NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
-                        self.rankLabel.text = newRankStr;
+                        NSString *poundSign = @"#";
+                        NSString *rankString = [NSString stringWithFormat:@"%@%@", poundSign, newRankStr];
+                        self.rankLabel.text = rankString;
                         [self.currentBridge setObject:[NSNumber numberWithInt:0] forKey:@"thirdUserRankNumber"];
                         NSLog(@"made it part 1");
                         [self.currentBridge saveInBackground];
@@ -177,7 +179,9 @@
                         [currentUser saveInBackground];
                         NSUInteger newRankInt = [newRank integerValue];
                         NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
-                        self.rankLabel.text = newRankStr;
+                        NSString *poundSign = @"#";
+                        NSString *rankString = [NSString stringWithFormat:@"%@%@", poundSign, newRankStr];
+                        self.rankLabel.text = rankString;
                         [self.currentBridge setObject:[NSNumber numberWithInt:0] forKey:@"updatedRankNumberForOtherUser"];
                         NSLog(@"made it part 2");
                         [self.currentBridge saveInBackground];
@@ -375,7 +379,9 @@
                         [currentUser saveInBackground];
                         NSUInteger newRankInt = [newRank integerValue];
                         NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
-                        self.rankLabel.text = newRankStr;
+                        NSString *poundSign = @"#";
+                        NSString *rankString = [NSString stringWithFormat:@"%@%@", poundSign, newRankStr];
+                        self.rankLabel.text = rankString;
                         [self.currentBridge setObject:[NSNumber numberWithInt:0] forKey:@"thirdUserRankNumber"];
                         [self.currentBridge saveInBackground];
                         
@@ -385,7 +391,9 @@
                         [currentUser saveInBackground];
                         NSUInteger newRankInt = [newRank integerValue];
                         NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
-                        self.rankLabel.text = newRankStr;
+                        NSString *poundSign = @"#";
+                        NSString *rankString = [NSString stringWithFormat:@"%@%@", poundSign, newRankStr];
+                        self.rankLabel.text = rankString;
                         [self.currentBridge setObject:[NSNumber numberWithInt:0] forKey:@"updatedRankNumberForOtherUser"];
                         [self.currentBridge saveInBackground];
                     }
