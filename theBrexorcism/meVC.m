@@ -79,7 +79,6 @@
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
                 }
-                [self.currentBridge deleteInBackground];
             }
         }];
     }
@@ -130,7 +129,6 @@
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
                 }
-                [self.currentBridge deleteInBackground];
             }
         }];
     }
@@ -158,6 +156,10 @@
                     
                     self.currentBridge = self.currentUserBridgeArrayRank[0];
                     
+                    NSLog(@"TELL ME WHO THE THIRD USER IS %@", [self.currentBridge objectForKey:@"thirdUser"]);
+                    NSLog(@"TELL ME WHO THE CURRENT USER IS %@", currentUser.username);
+                    NSLog(@"TELL ME WHO THE USERNAME USER IS %@", [self.currentBridge objectForKey:@"username"]);
+                    
                     if ([[self.currentBridge objectForKey:@"thirdUser"] isEqualToString:currentUser.username]) {
                         NSNumber *newRank = [self.currentBridge objectForKey:@"thirdUserRankNumber"];
                         [currentUser setObject:newRank forKey:@"rank"];
@@ -165,6 +167,10 @@
                         NSUInteger newRankInt = [newRank integerValue];
                         NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
                         self.rankLabel.text = newRankStr;
+                        [self.currentBridge setObject:[NSNumber numberWithInt:0] forKey:@"thirdUserRankNumber"];
+                        NSLog(@"made it part 1");
+                        [self.currentBridge saveInBackground];
+                        
                     } else if ([[self.currentBridge objectForKey:@"username"] isEqualToString:currentUser.username]) {
                         NSNumber *newRank = [self.currentBridge objectForKey:@"updatedRankNumberForOtherUser"];
                         [currentUser setObject:newRank forKey:@"rank"];
@@ -172,6 +178,9 @@
                         NSUInteger newRankInt = [newRank integerValue];
                         NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
                         self.rankLabel.text = newRankStr;
+                        [self.currentBridge setObject:[NSNumber numberWithInt:0] forKey:@"updatedRankNumberForOtherUser"];
+                        NSLog(@"made it part 2");
+                        [self.currentBridge saveInBackground];
                     }
                     
                 } else {
@@ -194,6 +203,8 @@
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
                 }
+            }
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES && self.bridgeFlag3 == YES && [self.currentBridge objectForKey:@"thirdUserRankNumber"] == [NSNumber numberWithInt:0] && [self.currentBridge objectForKey:@"updatedRankNumberForOtherUser"] == [NSNumber numberWithInt:0]) {
                 [self.currentBridge deleteInBackground];
             }
         }];
@@ -255,7 +266,6 @@
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
                 }
-                [self.currentBridge deleteInBackground];
             }
         }];
     }
@@ -306,7 +316,6 @@
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
                 }
-                [self.currentBridge deleteInBackground];
             }
         }];
     }
@@ -341,6 +350,9 @@
                         NSUInteger newRankInt = [newRank integerValue];
                         NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
                         self.rankLabel.text = newRankStr;
+                        [self.currentBridge setObject:[NSNumber numberWithInt:0] forKey:@"thirdUserRankNumber"];
+                        [self.currentBridge saveInBackground];
+                        
                     } else if ([[self.currentBridge objectForKey:@"username"] isEqualToString:currentUser.username]) {
                         NSNumber *newRank = [self.currentBridge objectForKey:@"updatedRankNumberForOtherUser"];
                         [currentUser setObject:newRank forKey:@"rank"];
@@ -348,6 +360,8 @@
                         NSUInteger newRankInt = [newRank integerValue];
                         NSString *newRankStr = [NSString stringWithFormat:@"%@", @(newRankInt)];
                         self.rankLabel.text = newRankStr;
+                        [self.currentBridge setObject:[NSNumber numberWithInt:0] forKey:@"updatedRankNumberForOtherUser"];
+                        [self.currentBridge saveInBackground];
                     }
                     
                 } else {
@@ -370,11 +384,12 @@
                     NSString *ratioStr = [NSString stringWithFormat:@"%.2f", ratioFloat];
                     self.ratioLabel.text = ratioStr;
                 }
+            }
+            if (self.bridgeFlag1 == YES && self.bridgeFlag2 == YES && self.bridgeFlag3 == YES && [self.currentBridge objectForKey:@"thirdUserRankNumber"] == [NSNumber numberWithInt:0] && [self.currentBridge objectForKey:@"updatedRankNumberForOtherUser"] == [NSNumber numberWithInt:0]) {
                 [self.currentBridge deleteInBackground];
             }
         }];
     }
-    
     [self checkForExistingChallenge];
     
     [self retrievePastChallenges];
@@ -603,14 +618,23 @@
                 
                 
             } else if (currentUserRankInt - otherUserRankInt == 2) {
-                NSNumber *temp1 = currentUserRankNumber;
-                NSInteger *temp1Int = [temp1 integerValue];
-                NSNumber *temp2 = otherUserRankNumber;
-                NSInteger *thirdUserRankNumberInt = temp1Int + 1;
+                NSNumber *temp1 = currentUserRankNumber; //3
+                int temp1Int = [temp1 intValue];
+                NSLog(@" temp1Int = %d", temp1Int); //good
+                
+                int thirdUserRankNumberInt = temp1Int - 1; //2
+                NSLog(@" thirdUserRankNumberInt = %d", thirdUserRankNumberInt);
+                
                 thirdUserRankNumber = [NSNumber numberWithInt:thirdUserRankNumberInt];
-                currentUserRankNumber = otherUserRankNumber;
+                currentUserRankNumber = otherUserRankNumber; //1
+                NSLog(@" otherUserRankNumber = %d", otherUserRankInt);
+                
                 otherUserRankNumber = thirdUserRankNumber;
+                
+                
                 thirdUserRankNumber = temp1;
+                
+                
                 [currentUser setObject:currentUserRankNumber forKey:@"rank"];
                 [currentUser saveInBackground];
                 
@@ -630,9 +654,9 @@
                             if (self.thirdUser != nil) {
                                 self.thirdUser = nil;
                             }
-                            NSLog(@"HI MOM");
+                            NSLog(@"currentUserRankInt -> %d", currentUserRankInt);
                             self.ladder = [[NSMutableArray alloc] initWithArray:objects];
-                            self.thirdUser = self.ladder[currentUserRankInt];
+                            self.thirdUser = self.ladder[currentUserRankInt - 1];
                             NSLog(@"THIS IS THE THIRD USER %@", self.thirdUser.username);
                         }
                     }];
@@ -843,7 +867,7 @@
     }
 }
 
-
+//make same for viewDidLoad and viewWillAppear
 
 
 @end
