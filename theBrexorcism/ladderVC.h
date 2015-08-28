@@ -19,6 +19,7 @@
 @property (nonatomic, strong) PFUser *challengedUser;
 @property NSUInteger currentUserRank;
 
+
 - (IBAction)logOut:(id)sender;
 
 @end

@@ -12,6 +12,7 @@
 		D65BF54E1B8D65E4003C2C0A /* challengeBrexceptVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D65BF54D1B8D65E4003C2C0A /* challengeBrexceptVC.m */; };
 		D65BF5511B90919F003C2C0A /* currentChallengesCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65BF5501B90919F003C2C0A /* currentChallengesCellTableViewCell.m */; };
 		D65BF5541B909579003C2C0A /* myPastChallengesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65BF5531B909579003C2C0A /* myPastChallengesCell.m */; };
+		D65BF5571B909FB3003C2C0A /* rulesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D65BF5561B909FB3003C2C0A /* rulesVC.m */; };
 		D68DA5F31B87D3AC0074FDD0 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68DA5ED1B87D3AC0074FDD0 /* Bolts.framework */; };
 		D68DA5F41B87D3AC0074FDD0 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68DA5EE1B87D3AC0074FDD0 /* Parse.framework */; };
 		D68DA5F51B87D3AC0074FDD0 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68DA5EF1B87D3AC0074FDD0 /* ParseCrashReporting.framework */; };
@@ -71,6 +72,8 @@
 		D65BF5501B90919F003C2C0A /* currentChallengesCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = currentChallengesCellTableViewCell.m; sourceTree = "<group>"; };
 		D65BF5521B909579003C2C0A /* myPastChallengesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myPastChallengesCell.h; sourceTree = "<group>"; };
 		D65BF5531B909579003C2C0A /* myPastChallengesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myPastChallengesCell.m; sourceTree = "<group>"; };
+		D65BF5551B909FB3003C2C0A /* rulesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rulesVC.h; sourceTree = "<group>"; };
+		D65BF5561B909FB3003C2C0A /* rulesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = rulesVC.m; sourceTree = "<group>"; };
 		D68DA5ED1B87D3AC0074FDD0 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		D68DA5EE1B87D3AC0074FDD0 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		D68DA5EF1B87D3AC0074FDD0 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
@@ -213,6 +216,8 @@
 				D6D75F391B839CCB00FBABDA /* ladderVC.h */,
 				D6D75F3A1B839CCB00FBABDA /* ladderVC.m */,
 				D6D75F3C1B839CCB00FBABDA /* Main.storyboard */,
+				D65BF5551B909FB3003C2C0A /* rulesVC.h */,
+				D65BF5561B909FB3003C2C0A /* rulesVC.m */,
 				D65BF5521B909579003C2C0A /* myPastChallengesCell.h */,
 				D65BF5531B909579003C2C0A /* myPastChallengesCell.m */,
 				D65BF54F1B90919F003C2C0A /* currentChallengesCellTableViewCell.h */,
@@ -368,6 +373,7 @@
 				D6D75F3B1B839CCB00FBABDA /* ladderVC.m in Sources */,
 				D6D75F381B839CCB00FBABDA /* AppDelegate.m in Sources */,
 				D68DA5FB1B87E2420074FDD0 /* challengeVC.m in Sources */,
+				D65BF5571B909FB3003C2C0A /* rulesVC.m in Sources */,
 				D6D75F891B83B97500FBABDA /* SignUpVC.m in Sources */,
 				D65BF5481B8BE03C003C2C0A /* meVC.m in Sources */,
 				D65BF54B1B8BEB2B003C2C0A /* currentChallengesVC.m in Sources */,
